@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nutella: School</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #1a6bbf;
+    --blue-dark: #0d4a8a;
+    --blue-bright: #2e8de0;
+    --black: #000000;
+    --black-card: #111111;
+    --white: #ffffff;
+    --gray: #aaaaaa;
+    --gray-dim: #555555;
+    --font: 'Press Start 2P', cursive;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--black);
+    color: var(--white);
+    font-family: var(--font);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  header {
+    background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 50%, var(--blue-bright) 100%);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 24px rgba(26,107,191,0.6);
+    display: flex;
+    align-items: center;
+    height: 70px;
+    border-bottom: 2px solid rgba(255,255,255,0.12);
+  }
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: white;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    color: var(--white);
+    font-size: 0.72rem;
+    line-height: 1;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .logo-text span {
+    opacity: 0.85;
+    font-size: 0.55em;
+    display: block;
+    letter-spacing: 2px;
+    margin-top: 6px;
+  }
+  .game-modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: #000;
+    flex-direction: column;
+  }
+  .game-modal-bg.open { display: flex; }
+  .game-modal-header {
+    background: var(--blue-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    flex-shrink: 0;
+  }
+  .game-modal-title { font-size: 0.52rem; color: var(--white); }
+  .game-modal-close {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    color: var(--white);
+    cursor: pointer;
+    font-family: var(--font);
+    font-size: 0.42rem;
+    padding: 6px 12px;
+  }
+  .game-modal-close:hover { background: rgba(26,107,191,0.6); }
+  .gameFrame { flex: 1; width: 100%; border: none; display: block; }
+  main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 36px 24px 60px;
+  }
+  .section-title {
+    font-size: 0.62rem;
+    color: var(--white);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, #2a2a2a, transparent);
+  }
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+  }
+  .game-card {
+    background: #111;
+    border: 2px solid #222;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    padding-bottom: 10px;
+  }
+  .game-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(26,107,191,0.35);
+  }
+  .game-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #00001a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    position: relative;
+  }
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .game-card:hover .play-overlay { opacity: 1; }
+  .game-name {
+    font-size: 0.42rem;
+    color: var(--white);
+    text-align: center;
+    padding: 8px 6px 0;
+    line-height: 1.7;
+  }
+  .search-wrap {
+    margin-bottom: 24px;
+    display: flex;
+    gap: 0;
+    max-width: 500px;
+  }
+  .search-wrap input {
+    flex: 1;
+    background: #161616;
+    border: 2px solid #333;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    color: var(--white);
+    font-family: var(--font);
+    font-size: 0.42rem;
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input::placeholder { color: var(--gray-dim); }
+  .search-wrap input:focus { border-color: var(--blue); }
+  .search-wrap button {
+    background: var(--blue);
+    border: none;
+    border-radius: 0 8px 8px 0;
+    color: white;
+    cursor: pointer;
+    font-family: var(--font);
+    font-size: 0.42rem;
+    padding: 11px 16px;
+    transition: background 0.2s;
+  }
+  .search-wrap button:hover { background: var(--blue-bright); }
+  .no-results {
+    color: #555;
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 40px 0;
+    font-size: 0.45rem;
+  }
+  footer {
+    background: var(--black-card);
+    border-top: 1px solid #222;
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .footer-logo { font-size: 0.55rem; color: var(--white); margin-bottom: 14px; }
+  .footer-logo span { color: var(--blue-bright); }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.38rem; }
+  .footer-links a:hover { color: var(--blue-bright); }
+  footer p { font-size: 0.35rem; color: var(--gray-dim); line-height: 2; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <img src="https://1000logos.net/wp-content/uploads/2020/09/Nutella-Logo.png" alt="Nutella Logo" style="height: 48px; width: auto; object-fit: contain;">
+    <div class="logo-text">
+      : School
+    </div>
+  </div>
+</header>
+
+<div id="gameModal" class="game-modal-bg">
+  <div class="game-modal-header">
+    <div class="game-modal-title" id="gameTitle"></div>
+    <button class="game-modal-close" onclick="closeGame()">✕ Close</button>
+  </div>
+  <iframe id="gameFrame" class="gameFrame" src="" allowfullscreen></iframe>
+</div>
+
+<main>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="Search games..." oninput="filterGames(this.value)" />
+    <button onclick="filterGames(document.getElementById('searchInput').value)">Search</button>
+  </div>
+  <div class="section-title">🎮 Games</div>
+  <div class="game-grid" id="gameGrid"></div>
+</main>
+
+<footer>
+  <div class="footer-logo"><span>Nutella</span>: School</div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+    <a href="#">DMCA</a>
+  </div>
+  <p>© 2025 Nutella: School · All games are property of their respective owners.</p>
+</footer>
+
+<script>
+  const games = [
+    {
+      name: "AdVenture Capitalist",
+      img: "https://upload.wikimedia.org/wikipedia/en/1/13/AdVenture_Capitalist_%282014_video_game%29.png",
+      embed: true,
+      html: `<!doctype html><html lang="en-us"><head><base href="https://rawcdn.githack.com/selenite-cc/selenite-old/9c743188888af0986c8c7b293dbac8f9e421a4ee/adventure-capitalist/"><meta charset="utf-8"><title>AdVenture Capitalist!</title><link rel="stylesheet" href="TemplateData/style.css"><script src="TemplateData/UnityProgress.js"><\/script></head><body class="template"><div class="webgl-content"><div id="unityContainer" style="width:960px;height:600px;padding:0;margin:0;border:0;position:relative;background:rgb(35,31,32);"><canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" width=335 height=667 style="width:100%;height:100%;background:#231F20"></canvas><div id="loadingBox"><div id="bgBar"></div><div id="progressBar"></div><p id="loadingInfo">Loading...</p></div><script type='text/javascript'>var Module={TOTAL_MEMORY:201326592,filePackagePrefixURL:"Release/",memoryInitializerPrefixURL:"Release/",preRun:[],postRun:[],print:(function(){return function(text){console.log(text);};})(),printErr:function(text){console.error(text);},canvas:document.getElementById('canvas'),progress:null,setStatus:function(text){if(this.progress==null){if(typeof UnityProgress!='function')return;this.progress=new UnityProgress(canvas);}if(!Module.setStatus.last)Module.setStatus.last={time:Date.now(),text:''};if(text===Module.setStatus.text)return;this.progress.SetMessage(text);var m=text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);if(m)this.progress.SetProgress(parseInt(m[2])/parseInt(m[4]));if(text==="")this.progress.Clear()},totalDependencies:0,monitorRunDependencies:function(left){this.totalDependencies=Math.max(this.totalDependencies,left);Module.setStatus(left?'Preparing... ('+(this.totalDependencies-left)+'/'+this.totalDependencies+')':'All downloads complete.');}};Module.setStatus('Downloading (0.0/1)');<\/script><script src="Release/UnityConfig.js"><\/script><script src="Release/fileloader.js"><\/script><script>if(!(!Math.fround)){var script=document.createElement('script');script.src="Release/webgl.js";document.body.appendChild(script);}else{var codeXHR=new XMLHttpRequest();codeXHR.open('GET','Release/webgl.js',true);codeXHR.onload=function(){var code=codeXHR.responseText;var blob=new Blob([code],{type:'text/javascript'});codeXHR=null;var script=document.createElement('script');script.src=URL.createObjectURL(blob);script.onload=function(){URL.revokeObjectURL(script.src);};document.body.appendChild(script);};codeXHR.send(null);}<\/script></div></div></body></html>`,
+      emoji: "💰"
+    }
+  ];function animate(time){animationCallbacks.forEach(callback=>callback(time));requestAnimationFrame(animate);}requestAnimationFrame(animate);function setStatusMode(mode){if(statusMode===mode||!initializing)return;[statusProgress,statusIndeterminate,statusNotice].forEach(elem=>{elem.style.display='none';});animationCallbacks=animationCallbacks.filter(function(value){return(value!=animateStatusIndeterminate);});switch(mode){case 'progress':statusProgress.style.display='block';break;case 'indeterminate':statusIndeterminate.style.display='block';animationCallbacks.push(animateStatusIndeterminate);break;case 'notice':statusNotice.style.display='block';break;case 'hidden':break;default:throw new Error('Invalid status mode');}statusMode=mode;}function animateStatusIndeterminate(ms){var i=Math.floor(ms/INDETERMINATE_STATUS_STEP_MS%8);if(statusIndeterminate.children[i].style.borderTopColor==''){Array.prototype.slice.call(statusIndeterminate.children).forEach(child=>{child.style.borderTopColor='';});statusIndeterminate.children[i].style.borderTopColor='#dfdfdf';}}function setStatusNotice(text){while(statusNotice.lastChild){statusNotice.removeChild(statusNotice.lastChild);}var lines=text.split('\n');lines.forEach((line)=>{statusNotice.appendChild(document.createTextNode(line));statusNotice.appendChild(document.createElement('br'));});}function displayFailureNotice(err){var msg=err.message||err;console.error(msg);setStatusNotice(msg);setStatusMode('notice');initializing=false;}if(!Engine.isWebGLAvailable()){displayFailureNotice('WebGL not available');}else{setStatusMode('indeterminate');engine.startGame({'onProgress':function(current,total){if(total>0){statusProgressInner.style.width=current/total*100+'%';setStatusMode('progress');if(current===total){setTimeout(()=>{setStatusMode('indeterminate');},500);}}else{setStatusMode('indeterminate');}}}).then(()=>{setStatusMode('hidden');initializing=false;},displayFailureNotice);}})();<\/script></body></html>`,
+      emoji: "💼"
+    },
+    {
+      name: "A Date with Death",
+      img: "https://cdn2.steamgriddb.com/logo_thumb/82359a931cad4216d2c26928d1601427.png",
+      embed: true,
+      html: `<!doctype html><html lang="en-us"><head><meta charset="utf-8"><title>A Date with Death</title><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>html{background:#444;font-family:sans-serif;}body,html{overscroll-behavior:none;margin:0;padding:0;overflow:hidden;height:100%;width:100%;}#canvas,#overlayDiv{position:absolute;top:0;left:0;width:100%;height:100%;border:0 none;}#canvas{background:#000;}.visible{visibility:visible;opacity:1.0;transition:opacity .1s linear;}.hidden{visibility:hidden;opacity:0;transition:visibility 0s .25s,opacity .25s linear;}#statusDiv{background:rgba(0,0,0,0.85);width:60%;margin:auto;min-width:340px;padding:20px;position:absolute;top:25%;left:0;right:0;border-radius:10px;color:#eee;text-align:center;z-index:100;}#statusProgress{width:100%;height:25px;margin-top:10px;}#presplash{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:50;}#inputDiv{background:rgba(0,0,0,0.75);width:65%;padding:20px;position:absolute;top:20%;left:0;right:0;margin:auto;border-radius:10px;z-index:120;}#inputText{width:100%;font-size:150%;background:#222;color:#fff;padding:5px;}#ContextContainer{position:absolute;left:10px;top:10px;color:white;z-index:110;}#ContextButton{font-size:30px;cursor:pointer;opacity:0.7;user-select:none;}#ContextMenu a{display:block;padding:10px;background:#444;color:#eee;text-decoration:none;border:1px solid #555;margin-top:5px;border-radius:5px;}</style></head><body><canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas><div id="overlayDiv"></div><img id="presplash" src="https://cdn.jsdelivr.net/gh/shayderrr/newports@77c469d583759817a3cdf97330fd1545f0a46f24/ADatewithDeath-2.4-web/web-presplash.jpg"><div id="statusDiv" class="visible"><div id="statusTextDiv">Connecting to CDN...</div><progress id="statusProgress" value="0" max="100"></progress></div><div id="inputDiv" class="hidden"><form id="inputForm"><div id="inputPrompt"></div><input id="inputText" type="text"></form></div><div id="ContextContainer"><a id="ContextButton">&#8801;</a><div id="ContextMenu" style="display:none;"><a href="javascript:onSavegamesExport();">Export Saves</a><a href="https://www.renpy.org/" target="_blank">Powered by Ren'Py</a></div></div><script>const GITHUB_BASE="https://cdn.jsdelivr.net/gh/shayderrr/newports@77c469d583759817a3cdf97330fd1545f0a46f24/ADatewithDeath-2.4-web/";const FILE_CONFIG={zip:{base:"game.zip.part",count:100,pad:3},wasm:{base:"renpy.wasm.part",count:2,pad:0}};window.isFullscreen=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);async function fetchAndMerge(config,label){const chunks=[];const progressElement=document.getElementById('statusProgress');const textElement=document.getElementById('statusTextDiv');for(let i=1;i<=config.count;i++){const suffix=config.pad>0?i.toString().padStart(config.pad,'0'):i.toString();const url=GITHUB_BASE+config.base+suffix;textElement.innerText='Downloading '+label+' ('+i+'/'+config.count+')...';const response=await fetch(url);if(!response.ok)throw new Error('CDN Error: Failed to fetch '+url);chunks.push(await response.arrayBuffer());const totalSteps=FILE_CONFIG.zip.count+FILE_CONFIG.wasm.count;const currentStep=(label==='Engine'?i:FILE_CONFIG.wasm.count+i);progressElement.value=(currentStep/totalSteps)*100;}return new Blob(chunks);}async function bootstrap(){try{const wasmBlob=await fetchAndMerge(FILE_CONFIG.wasm,'Engine');const wasmArrayBuffer=await wasmBlob.arrayBuffer();const zipBlob=await fetchAndMerge(FILE_CONFIG.zip,'Game Files');const zipURL=URL.createObjectURL(zipBlob);window.gameZipURL=zipURL;window.Module={wasmBinary:wasmArrayBuffer,print:console.log,printErr:console.error,locateFile:(path)=>GITHUB_BASE+path,setStatus:(text)=>{if(text)document.getElementById('statusTextDiv').innerText=text;else{document.getElementById('statusDiv').classList.add('hidden');document.getElementById('presplash').classList.add('hidden');}}};console.log('Loading core scripts...');await loadScript(GITHUB_BASE+'renpy-pre.js');await loadScript(GITHUB_BASE+'renpy.js');}catch(e){document.getElementById('statusTextDiv').style.color='#ff6666';document.getElementById('statusTextDiv').innerText='FATAL ERROR: '+e.message;console.error(e);}}function loadScript(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=(err)=>reject(new Error('Failed to load engine script: '+src));document.body.appendChild(s);});}bootstrap();document.getElementById('ContextButton').addEventListener('click',()=>{const menu=document.getElementById('ContextMenu');menu.style.display=(menu.style.display==='none')?'block':'none';});<\/script></body></html>`,
+      emoji: "💀"
+    },
+    {
+      name: "A Dark Room",
+      embed: true,
+      html: `<!DOCTYPE html><html itemscope itemtype="https://schema.org/CreativeWork"><head><meta charset="UTF-8"/><title>A Dark Room</title><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/jquery.color-2.1.2.min.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/jquery.event.move.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/jquery.event.swipe.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/base64.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/translate.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lang/langs.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/Button.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/audioLibrary.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/audio.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/engine.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/state_manager.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/header.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/notifications.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/room.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/outside.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/world.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/path.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/ship.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/space.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/fabricator.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/prestige.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/scoring.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/global.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/room.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/outside.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/encounters.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/setpieces.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/marketing.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/executioner.js"><\/script><script>var oldIE=false;<\/script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/main.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/room.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/outside.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/path.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/world.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/ship.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/space.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/fabricator.css"/><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/localization.js"><\/script></head><body><div id="wrapper"><div id="saveNotify"></div><div id="content"><div id="outerSlider"><div id="main"><div id="header"></div></div></div></div></div></body></html>`,
+      emoji: "🕯️"
+    },
+    {
+      name: "A Dance of Fire and Ice",
+      embed: true,
+      html: `<!DOCTYPE html><html><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/paigerodeghero/academicwebsite@897c910c65e6c68b04c44a6b6eba0b99d0f2f2cf/TemplateData/style.css"><script src="https://cdn.jsdelivr.net/gh/paigerodeghero/academicwebsite@897c910c65e6c68b04c44a6b6eba0b99d0f2f2cf/TemplateData/UnityProgress.js"><\/script><script src="https://cdn.jsdelivr.net/gh/udbsite/adofai@f170efcb1b532312817e69f26ce3f84c99940238/Build/UnityLoader.js"><\/script><script>var gameInstance = UnityLoader.instantiate("gameContainer","https://cdn.jsdelivr.net/gh/udbsite/adofai@f170efcb1b532312817e69f26ce3f84c99940238/Build/adofaiii4.json",{onProgress:UnityProgress,Module:{onRuntimeInitialized:function(){UnityProgress(gameInstance,"complete")}}});<\/script><div class="webgl-content"><div id="gameContainer" style="width:100vw;height:100vh"></div></div></html>`,
+      emoji: "🔥"
+    }
+  ];
+
+  function buildGrid(list) {
+    const grid = document.getElementById('gameGrid');
+    grid.innerHTML = '';
+    if (!list.length) {
+      grid.innerHTML = '<div class="no-results">No games found.</div>';
+      return;
+    }
+    list.forEach(g => {
+      const card = document.createElement('div');
+      card.className = 'game-card';
+      const thumbContent = g.img
+        ? `<img src="${g.img}" alt="${g.name}" style="width:100%;height:100%;object-fit:contain;background:#111;">`
+        : `<span>${g.emoji || '🎮'}</span>`;
+      card.innerHTML = `
+        <div class="game-thumb">
+          ${thumbContent}
+          <div class="play-overlay">▶</div>
+        </div>
+        <div class="game-name">${g.name}</div>`;
+      card.onclick = () => openGame(g);
+      grid.appendChild(card);
+    });
+  }
+
+  function filterGames(q) {
+    const filtered = q.trim()
+      ? games.filter(g => g.name.toLowerCase().includes(q.toLowerCase()))
+      : games;
+    buildGrid(filtered);
+  }
+
+  function openGame(g) {
+    document.getElementById('gameTitle').textContent = g.name;
+    const frame = document.getElementById('gameFrame');
+    if (g.embed && g.html) {
+      frame.removeAttribute('src');
+      frame.srcdoc = g.html;
+    } else {
+      frame.removeAttribute('srcdoc');
+      frame.src = g.url;
+    }
+    document.getElementById('gameModal').classList.add('open');
+  }
+
+  function closeGame() {
+    document.getElementById('gameFrame').src = '';
+    document.getElementById('gameModal').classList.remove('open');
+  }
+
+  window.onload = () => buildGrid(games);
+</script>
+</body>
+</html>
