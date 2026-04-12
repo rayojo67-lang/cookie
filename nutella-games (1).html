@@ -8,216 +8,91 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --blue: #1a6bbf;
-    --blue-dark: #0d4a8a;
-    --blue-bright: #2e8de0;
+    --accent: #0055cc;
+    --accent-dark: #003a99;
+    --accent-bright: #1a6eff;
     --black: #000000;
     --black-card: #111111;
+    --black-card2: #161616;
     --white: #ffffff;
     --gray: #aaaaaa;
     --gray-dim: #555555;
     --font: 'Press Start 2P', cursive;
   }
   html { scroll-behavior: smooth; }
-  body {
-    background-color: var(--black);
-    color: var(--white);
-    font-family: var(--font);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+  body { background-color: var(--black); color: var(--white); font-family: var(--font); min-height: 100vh; overflow-x: hidden; }
+
+  /* HEADER */
   header {
-    background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 50%, var(--blue-bright) 100%);
-    padding: 0 24px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 4px 24px rgba(26,107,191,0.6);
-    display: flex;
-    align-items: center;
-    height: 70px;
+    background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 50%, var(--accent-bright) 100%);
+    padding: 0 24px; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: space-between; height: 70px;
     border-bottom: 2px solid rgba(255,255,255,0.12);
   }
-  .logo-wrap {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .logo-icon {
-    width: 38px; height: 38px;
-    background: white;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-  .logo-text {
-    color: var(--white);
-    font-size: 0.72rem;
-    line-height: 1;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  }
-  .logo-text span {
-    opacity: 0.85;
-    font-size: 0.55em;
-    display: block;
-    letter-spacing: 2px;
-    margin-top: 6px;
-  }
-  .game-modal-bg {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    background: #000;
-    flex-direction: column;
-  }
-  .game-modal-bg.open { display: flex; }
-  .game-modal-header {
-    background: var(--blue-dark);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 18px;
-    flex-shrink: 0;
-  }
-  .game-modal-title { font-size: 0.52rem; color: var(--white); }
-  .game-modal-close {
-    background: rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 6px;
-    color: var(--white);
-    cursor: pointer;
-    font-family: var(--font);
-    font-size: 0.42rem;
-    padding: 6px 12px;
-  }
-  .game-modal-close:hover { background: rgba(26,107,191,0.6); }
-  .gameFrame { flex: 1; width: 100%; border: none; display: block; }
-  main {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 36px 24px 60px;
-  }
-  .section-title {
-    font-size: 0.62rem;
-    color: var(--white);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, #2a2a2a, transparent);
-  }
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 16px;
-  }
-  .game-card {
-    background: #111;
-    border: 2px solid #222;
-    border-radius: 10px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-    padding-bottom: 10px;
-  }
-  .game-card:hover {
-    border-color: var(--blue);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(26,107,191,0.35);
-  }
-  .game-thumb {
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: #00001a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    position: relative;
-  }
-  .play-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
+  .logo-wrap { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+  .logo-icon { width: 38px; height: 38px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .logo-text { color: var(--white); font-size: 0.72rem; text-shadow: 0 2px 6px rgba(0,0,0,0.4); }
+  .nav-btn { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; color: var(--white); cursor: pointer; font-family: var(--font); font-size: 0.42rem; padding: 8px 14px; }
+  .nav-btn:hover { background: rgba(255,255,255,0.22); }
+
+  /* CREDITS MODAL */
+  .credits-modal-bg { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
+  .credits-modal-bg.open { display: flex; }
+  .credits-modal { background: var(--black-card); border: 2px solid var(--accent); border-radius: 16px; padding: 40px 36px; max-width: 520px; width: 90%; text-align: center; position: relative; }
+  .credits-modal h2 { font-size: 0.75rem; color: var(--accent-bright); margin-bottom: 28px; line-height: 2; }
+  .credits-modal p { font-size: 0.42rem; color: var(--gray); line-height: 2.4; margin-bottom: 20px; }
+  .credits-modal a { color: var(--accent-bright); text-decoration: none; }
+  .credits-modal a:hover { text-decoration: underline; }
+  .credits-close { margin-top: 10px; background: var(--accent); border: none; border-radius: 8px; color: var(--white); cursor: pointer; font-family: var(--font); font-size: 0.42rem; padding: 10px 22px; }
+  .credits-close:hover { background: var(--accent-bright); }
+  .credits-star { font-size: 2.2rem; display: block; margin-bottom: 18px; }
+
+  /* HERO */
+  .hero { background: linear-gradient(180deg, #00001a 0%, var(--black) 100%); padding: 50px 24px 40px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0,85,204,0.15) 0%, transparent 70%); pointer-events: none; }
+  .hero h1 { font-size: clamp(0.75rem, 2vw, 1.3rem); color: var(--white); margin-bottom: 14px; position: relative; line-height: 1.8; }
+  .hero h1 em { color: var(--accent-bright); font-style: normal; }
+  .hero p { font-size: 0.48rem; color: var(--gray); max-width: 520px; margin: 0 auto 28px; position: relative; line-height: 2.2; }
+
+  /* SEARCH */
+  .search-bar { display: flex; max-width: 460px; margin: 0 auto; }
+  .search-bar input { flex: 1; background: var(--black-card2); border: 2px solid var(--gray-dim); border-right: none; border-radius: 8px 0 0 8px; color: var(--white); font-family: var(--font); font-size: 0.48rem; padding: 12px 14px; }
+  .search-bar input::placeholder { color: var(--gray-dim); }
+  .search-bar input:focus { outline: none; border-color: var(--accent); }
+  .search-bar button { background: var(--accent); border: none; border-radius: 0 8px 8px 0; color: white; cursor: pointer; font-family: var(--font); font-size: 0.48rem; padding: 12px 16px; }
+  .search-bar button:hover { background: var(--accent-bright); }
+
+  /* MAIN */
+  main { max-width: 1280px; margin: 0 auto; padding: 36px 24px 60px; }
+  .section-title { font-size: 0.62rem; color: var(--white); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, #2a2a2a, transparent); }
+
+  /* GAME GRID */
+  .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+  .game-card { background: var(--black-card); border: 2px solid #222; border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; padding-bottom: 10px; }
+  .game-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,85,204,0.35); }
+  .game-thumb { width: 100%; aspect-ratio: 16/9; background: #00001a; display: flex; align-items: center; justify-content: center; font-size: 2rem; position: relative; }
+  .play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; opacity: 0; transition: opacity 0.2s; }
   .game-card:hover .play-overlay { opacity: 1; }
-  .game-name {
-    font-size: 0.42rem;
-    color: var(--white);
-    text-align: center;
-    padding: 8px 6px 0;
-    line-height: 1.7;
-  }
-  .search-wrap {
-    margin-bottom: 24px;
-    display: flex;
-    gap: 0;
-    max-width: 500px;
-  }
-  .search-wrap input {
-    flex: 1;
-    background: #161616;
-    border: 2px solid #333;
-    border-right: none;
-    border-radius: 8px 0 0 8px;
-    color: var(--white);
-    font-family: var(--font);
-    font-size: 0.42rem;
-    padding: 11px 14px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .search-wrap input::placeholder { color: var(--gray-dim); }
-  .search-wrap input:focus { border-color: var(--blue); }
-  .search-wrap button {
-    background: var(--blue);
-    border: none;
-    border-radius: 0 8px 8px 0;
-    color: white;
-    cursor: pointer;
-    font-family: var(--font);
-    font-size: 0.42rem;
-    padding: 11px 16px;
-    transition: background 0.2s;
-  }
-  .search-wrap button:hover { background: var(--blue-bright); }
-  .no-results {
-    color: #555;
-    grid-column: 1/-1;
-    text-align: center;
-    padding: 40px 0;
-    font-size: 0.45rem;
-  }
-  footer {
-    background: var(--black-card);
-    border-top: 1px solid #222;
-    padding: 28px 24px;
-    text-align: center;
-  }
-  .footer-logo { font-size: 0.55rem; color: var(--white); margin-bottom: 14px; }
-  .footer-logo span { color: var(--blue-bright); }
-  .footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
-  }
-  .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.38rem; }
-  .footer-links a:hover { color: var(--blue-bright); }
+  .game-name { font-size: 0.42rem; color: var(--white); text-align: center; padding: 8px 6px 0; line-height: 1.7; }
+  .no-results { color: var(--gray-dim); grid-column: 1/-1; text-align: center; padding: 40px 0; font-size: 0.45rem; }
+
+  /* GAME MODAL */
+  .game-modal-bg { display: none; position: fixed; inset: 0; z-index: 999; background: #000; flex-direction: column; }
+  .game-modal-bg.open { display: flex; }
+  .game-modal-header { background: var(--accent-dark); display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; flex-shrink: 0; }
+  .game-modal-title { font-size: 0.52rem; color: var(--white); }
+  .game-modal-close { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: var(--white); cursor: pointer; font-family: var(--font); font-size: 0.42rem; padding: 6px 12px; }
+  .game-modal-close:hover { background: rgba(0,50,150,0.5); }
+  .game-modal-fullscreen { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: var(--white); cursor: pointer; font-family: var(--font); font-size: 0.42rem; padding: 6px 12px; }
+  .game-modal-fullscreen:hover { background: rgba(0,100,0,0.5); }
+  .gameFrame { flex: 1; width: 100%; border: none; display: block; }
+
+  /* FOOTER */
+  footer { background: var(--black-card); border-top: 1px solid #222; padding: 28px 24px; text-align: center; }
+  .footer-logo { font-size: 0.55rem; color: var(--white); margin-bottom: 10px; }
+  .footer-logo span { color: var(--accent-bright); }
   footer p { font-size: 0.35rem; color: var(--gray-dim); line-height: 2; }
 </style>
 </head>
@@ -225,124 +100,444 @@
 
 <header>
   <div class="logo-wrap">
-    <img src="https://1000logos.net/wp-content/uploads/2020/09/Nutella-Logo.png" alt="Nutella Logo" style="height: 48px; width: auto; object-fit: contain;">
-    <div class="logo-text">
-      : School
-    </div>
+    <div class="logo-icon">🎮</div>
+    <div class="logo-text">Nutella: School</div>
   </div>
+  <button class="nav-btn" onclick="document.getElementById('creditsModal').classList.add('open')">Credits</button>
 </header>
 
+<!-- HOME PAGE -->
+<section class="hero">
+  <h1>Welcome to <em>Nutella: School</em></h1>
+  <p>Search or click a game to play instantly.</p>
+  <div class="search-bar">
+    <input type="text" id="searchHomeInput" placeholder="Search games…" oninput="searchGames(this.value)" />
+    <button onclick="searchGames(document.getElementById('searchHomeInput').value)">Search</button>
+  </div>
+</section>
+<main>
+  <div class="section-title">🎮 Games</div>
+  <div class="game-grid" id="homeGrid"></div>
+</main>
+
+<!-- CREDITS MODAL -->
+<div id="creditsModal" class="credits-modal-bg" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="credits-modal">
+    <span class="credits-star">🌟</span>
+    <h2>Credits</h2>
+    <p>All these games aren't mine — they are from <a href="https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/" target="_blank">Ultimate Game Stash</a>.</p>
+    <p>Thank you <strong style="color:var(--white)">Ultimate Game Stash</strong> for all these games! 🎮</p>
+    <button class="credits-close" onclick="document.getElementById('creditsModal').classList.remove('open')">Close</button>
+  </div>
+</div>
+
+<!-- GAME MODAL -->
 <div id="gameModal" class="game-modal-bg">
   <div class="game-modal-header">
     <div class="game-modal-title" id="gameTitle"></div>
-    <button class="game-modal-close" onclick="closeGame()">✕ Close</button>
+    <div style="display:flex;gap:8px;">
+      <button class="game-modal-fullscreen" onclick="fullscreenGame()">⛶ Fullscreen</button>
+      <button class="game-modal-close" onclick="closeGame()">✕ Close</button>
+    </div>
   </div>
   <iframe id="gameFrame" class="gameFrame" src="" allowfullscreen></iframe>
 </div>
 
-<main>
-  <div class="search-wrap">
-    <input type="text" id="searchInput" placeholder="Search games..." oninput="filterGames(this.value)" />
-    <button onclick="filterGames(document.getElementById('searchInput').value)">Search</button>
-  </div>
-  <div class="section-title">🎮 Games</div>
-  <div class="game-grid" id="gameGrid"></div>
-</main>
-
 <footer>
-  <div class="footer-logo"><span>Nutella</span>: School</div>
-  <div class="footer-links">
-    <a href="#">Privacy</a>
-    <a href="#">Terms</a>
-    <a href="#">Contact</a>
-    <a href="#">DMCA</a>
-  </div>
-  <p>© 2025 Nutella: School · All games are property of their respective owners.</p>
+  <div class="footer-logo"><span>Nutella:</span> School</div>
+  <p>© 2025 Nutella: School</p>
 </footer>
 
 <script>
+  const aquaparkHTML = `<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><base href="https://cdn.jsdelivr.net/gh/genizy/braybray/aquapark-io/"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Aquapark IO Unblocked</title><link rel="stylesheet" href="TemplateData/css/style.css"><meta name="viewport" content="width=device-width, initial-scale=1" /><script src="Build/UnityLoader.js"><\/script><script src="TemplateData/load.js"><\/script></head><body><div class="keepRatio"><div class="webgl-content"><button class="icon-resize-full" id="fullScreenButton" onclick="ToggleFullScreen()"></button><div id="gameContainer"></div></div><div id="loadingBlock"><h1 class="subtitle">Aquapark.io</h1><div class="cover" style="background-image:url(Aquaparkio512.jpg)"></div><div id="progressBar"><div style="margin-bottom:5px">Loading ...</div><div class="centered emptyBarbg"><div id="emptyBar"></div><div id="fullBar"></div></div></div></div></div></body></html>`;
+
+  const archeryHTML = `<!DOCTYPE html><html lang="en"><head><base href="https://cdn.jsdelivr.net/gh/bubbls/youtube-playables@main/archery-world-tour/"><title>Archery World Tour</title><meta charset="utf-8"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="viewport" content="initial-scale=1.0,maximum-scale=1.01,minimal-ui"/><style>body{margin:0;padding:0;width:100%;overflow:hidden;background-color:black;}canvas{-ms-touch-action:none;image-rendering:-o-crisp-edges;image-rendering:optimize-contrast;-ms-interpolation-mode:nearest-neighbor;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;}</style><script src="https://cdn.jsdelivr.net/gh/bubbls/youtube-playables@main/ytgame.js"><\/script><script>try{ytgame.game.firstFrameReady();}catch(e){}<\/script><script>window.famobi_gameID="archery-world-tour";window.famobi_gameJS=["TweenMax.min.js","Howler.min.js","VisibilityManager.js","app.js",function(){if(!window.famobi||!window.famobi.hasFeature("leaderboard")){if(typeof extGameLoad==="function")extGameLoad();return;}var apiURL="//tools.famobi.com/api/simple-highscore/api.js";if(document.location.href.indexOf("file:")!==-1)apiURL="http:"+apiURL;faZepto.getScript(apiURL,extGameLoad,function(){window.famobi.config.features.leaderboard=0;extGameLoad();});}];(function(document,url,fgJS,firstJS){fgJS=document.createElement("script");firstJS=document.getElementsByTagName("script")[0];fgJS.src=url+"";firstJS.parentNode.insertBefore(fgJS,firstJS);})(document,"html5games/gameapi/v1.js");<\/script></head><body><div id="canvas-wrapper" style="overflow:hidden;width:100%;height:100%;margin:0;padding:0;position:absolute;"><canvas id="canvas" moz-opaque></canvas></div></body></html>`;
+
+  const arsonateHTML = `<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>ARSONATE</title><style>body{margin:0;padding:0;background:#000;}#unity-container{width:100%;height:100vh;display:flex;align-items:center;justify-content:center;}#unity-canvas{width:960px;height:540px;}#unity-loading-bar{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:white;font-family:sans-serif;}#unity-progress-bar-empty{width:300px;height:18px;background:#333;border-radius:9px;margin-top:10px;overflow:hidden;}#unity-progress-bar-full{height:100%;width:0%;background:#e55;border-radius:9px;transition:width 0.2s;}#unity-footer{position:fixed;bottom:8px;right:8px;}#unity-fullscreen-button{width:38px;height:38px;background:rgba(255,255,255,0.15);border-radius:6px;cursor:pointer;background-image:url('https://raw.githubusercontent.com/Stinkalistic/junk/refs/heads/main/arsonate/TemplateData/fullscreen-button.png');background-size:cover;}#unity-warning{position:fixed;top:0;left:0;right:0;z-index:99;}</style></head><body><div id="unity-container" class="unity-desktop"><canvas id="unity-canvas" width=960 height=540></canvas><div id="unity-loading-bar"><div id="unity-progress-bar-empty"><div id="unity-progress-bar-full"></div></div></div><div id="unity-warning"></div><div id="unity-footer"><div id="unity-fullscreen-button"></div></div></div><script>var canvas=document.querySelector("#unity-canvas");var loadingBar=document.querySelector("#unity-loading-bar");var progressBarFull=document.querySelector("#unity-progress-bar-full");var fullscreenButton=document.querySelector("#unity-fullscreen-button");var warningBanner=document.querySelector("#unity-warning");function unityShowBanner(msg,type){var div=document.createElement('div');div.innerHTML=msg;warningBanner.appendChild(div);if(type=='error')div.style='background:red;padding:10px;';else if(type=='warning'){div.style='background:yellow;padding:10px;';setTimeout(function(){warningBanner.removeChild(div);},5000);}warningBanner.style.display='block';}var buildUrl="https://raw.githubusercontent.com/Stinkalistic/junk/refs/heads/main/arsonate/Build";var loaderUrl="https://cdn.jsdelivr.net/gh/Stinkalistic/junk@main/arsonate/Build/ARSONATE%20-%20WEBGL_DEMO%20-%20CURRENT_RELEASE.loader.js";var config={dataUrl:buildUrl+"/ARSONATE - WEBGL_DEMO - CURRENT_RELEASE.data.unityweb",frameworkUrl:"https://cdn.jsdelivr.net/gh/Stinkalistic/junk@main/arsonate/Build/ARSONATE - WEBGL_DEMO - CURRENT_RELEASE.framework.js.unityweb",codeUrl:buildUrl+"/ARSONATE - WEBGL_DEMO - CURRENT_RELEASE.wasm.unityweb",streamingAssetsUrl:"StreamingAssets",companyName:"Nash",productName:"ARSONATE",productVersion:"0.1",showBanner:unityShowBanner};canvas.style.background="url('"+buildUrl+"/ARSONATE - WEBGL_DEMO - CURRENT_RELEASE.jpg') center / cover";loadingBar.style.display="block";var script=document.createElement("script");script.src=loaderUrl;script.onload=()=>{createUnityInstance(canvas,config,(progress)=>{progressBarFull.style.width=100*progress+"%";}).then((unityInstance)=>{loadingBar.style.display="none";fullscreenButton.onclick=()=>{unityInstance.SetFullscreen(1);};}).catch((message)=>{alert(message);});};document.body.appendChild(script);<\/script></body></html>`;
+
+  const asDutyHTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"><title>As Duty Demands</title><style>body,html{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background-color:#000;}#canvas{display:block;width:100vw !important;height:100vh !important;position:fixed;top:0;left:0;border:none;outline:none;object-fit:fill;}#status{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;color:#fff;font-family:sans-serif;text-align:center;pointer-events:none;}progress{width:80vw;max-width:400px;height:20px;appearance:none;border-radius:10px;overflow:hidden;}progress::-webkit-progress-bar{background-color:#222;}progress::-webkit-progress-value{background-color:#fff;}</style><script src="https://cdn.jsdelivr.net/gh/gzuidhof/coi-serviceworker@latest/coi-serviceworker.min.js"><\/script></head><body><canvas id="canvas"></canvas><div id="status"><div id="status-text">Downloading As Duty Demands (79 parts)...</div><progress id="status-progress" value="0" max="100"></progress></div><script>(function(){'use strict';const BASE_JS="https://cdn.jsdelivr.net/gh/shayderrr/portsv4@06672782de36961983b66cdf43a8c415929ac992/web/";const BASE_PCK="https://cdn.jsdelivr.net/gh/shayderrr/portsv4@06672782de36961983b66cdf43a8c415929ac992/web/pck/";const originalFetch=window.fetch;const mergedData={};const pendingRequests={};window.fetch=function(url,...args){const u=url.toString();if(u.includes("As Duty Demands.pck")||u.includes("As%20Duty%20Demands.pck")||u.includes("As Duty Demands.wasm")||u.includes("As%20Duty%20Demands.wasm")){const f=u.includes(".pck")?"As Duty Demands.pck":"As Duty Demands.wasm";if(mergedData[f])return Promise.resolve(new Response(mergedData[f]));return new Promise((resolve)=>{if(!pendingRequests[f])pendingRequests[f]=[];pendingRequests[f].push(resolve);});}return originalFetch(url,...args);};async function merge(name,baseUrl,start,end,pad){const bufs=[];for(let i=start;i<=end;i++){const p=pad?i.toString().padStart(2,'0'):i;const url=baseUrl+encodeURIComponent(name+".part"+p);const r=await originalFetch(url);if(!r.ok)throw new Error();bufs.push(await r.arrayBuffer());const totalParts=81;const currentPart=name.includes('.pck')?i:79+i;document.getElementById('status-progress').value=(currentPart/totalParts)*100;document.getElementById('status-text').innerText="Loading "+name+" (Part "+i+"/"+end+")";}const b=new Blob(bufs,{type:'application/octet-stream'});mergedData[name]=b;if(pendingRequests[name]){pendingRequests[name].forEach(res=>res(new Response(b)));delete pendingRequests[name];}}async function init(){try{await merge("As Duty Demands.pck",BASE_PCK,1,79,true);await merge("As Duty Demands.wasm",BASE_JS,1,2,false);const s=document.createElement('script');s.src=BASE_JS+encodeURIComponent("As Duty Demands.js");s.onload=()=>{const engine=new Engine({"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"As Duty Demands","experimentalVK":false,"fileSizes":{"As Duty Demands.pck":1565896152,"As Duty Demands.wasm":35740641},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4});engine.startGame({onProgress:(c,t)=>{if(t>0)document.getElementById('status-progress').value=(c/t)*100;}}).then(()=>{document.getElementById('status').style.display='none';window.dispatchEvent(new Event('resize'));});};document.body.appendChild(s);}catch(e){document.getElementById('status-text').innerText="Load Failed - Check Connection";}}init();})();<\/script></body></html>`;
+
+  const arthursHTML = `<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><base href="https://cdn.jsdelivr.net/gh/bubbls/ports@89abf1665a415434935039694dccc55678c0f2d2/arthurs-nightmare/"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Arthur's Nightmare</title><link rel="stylesheet" href="TemplateData/style.css"><script>(function(){const originalFetch=window.fetch;window.fetch=function(...args){let url=args[0];if(typeof url==='string'&&url.includes('StreamingAssets/')){const filename=url.split('StreamingAssets/').pop();url='https://cdn.jsdelivr.net/gh/bubbls/ports@main/arthurs-nightmare/StreamingAssets/'+filename;args[0]=url;}return originalFetch.apply(this,args);};const originalOpen=XMLHttpRequest.prototype.open;XMLHttpRequest.prototype.open=function(method,url,...rest){if(typeof url==='string'&&url.includes('StreamingAssets/')){const filename=url.split('StreamingAssets/').pop();url='https://cdn.jsdelivr.net/gh/bubbls/ports@main/arthurs-nightmare/StreamingAssets/'+filename;}return originalOpen.call(this,method,url,...rest);};})();<\/script><script src="TemplateData/UnityProgress.js"><\/script><script>window.fileMergerConfig={files:[{name:'web.data.unityweb',parts:2},{name:'web.asm.code.unityweb',parts:2}],basePath:'Build/',debug:true};<\/script><script src="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/merge.js"><\/script><script src="Build/UnityLoader.js"><\/script><script>var gameInstance=UnityLoader.instantiate("gameContainer","Build/web.json",{onProgress:UnityProgress});<\/script></head><body><div class="webgl-content"><style>body{margin:0;overflow:hidden;}</style><div id="gameContainer" style="width:100vw;height:100vh;"></div><div class="footer"><div class="webgl-logo"></div><div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div><div class="title">Arthur's Nightmare</div></div></div></body></html>`;
+
+  const adventNeonHTML = `<!DOCTYPE html><html lang="en"><base href="https://cdn.jsdelivr.net/gh/Stinkalistic/UGS@main/MISC/adventneon/"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><title>AdventNEON</title><style>body{background:#000;color:#ccc;margin:0;padding:0;border:0;overflow:hidden;}.gm4html5_div_class{position:fixed;top:0;left:0;width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;}canvas{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:0;margin:0;padding:0;display:block;image-rendering:optimizeSpeed;-webkit-interpolation-mode:nearest-neighbor;-ms-touch-action:none;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"><\/script></head><body><div class="gm4html5_div_class" id="gm4html5_div_id"><img src="AdventNEON/splash.png" id="GM4HTML5_loadingscreen" alt="loading" style="display:none;"><canvas id="canvas" width="1280" height="720"><p>Your browser doesn't support HTML5 canvas.</p></canvas></div><script>async function loadGameFromZip(){try{const response=await fetch('AdventNEON/AdventNEON.js.zip');const arrayBuffer=await response.arrayBuffer();const zip=await JSZip.loadAsync(arrayBuffer);const file=zip.file('AdventNEON.js');if(!file)throw new Error("AdventNEON.js not found in zip!");const jsContent=await file.async('text');new Function(jsContent)();setTimeout(()=>{const canvas=document.getElementById('canvas');canvas.style.position='absolute';canvas.style.top='50%';canvas.style.left='50%';canvas.style.transform='translate(-50%,-50%)';},1000);if(typeof GameMaker_Init==='function'){GameMaker_Init();}else{console.warn("GameMaker_Init not found.");}}catch(err){console.error("Failed to load or execute AdventNEON:",err);}}window.onload=loadGameFromZip;<\/script></body></html>`;
+
+  const adofaiHTML = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>A Dance of Fire and Ice</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#000;overflow:hidden;}#gameContainer{width:100vw;height:100vh;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/paigerodeghero/academicwebsite@897c910c65e6c68b04c44a6b6eba0b99d0f2f2cf/TemplateData/style.css"/><script src="https://cdn.jsdelivr.net/gh/paigerodeghero/academicwebsite@897c910c65e6c68b04c44a6b6eba0b99d0f2f2cf/TemplateData/UnityProgress.js"><\/script><script src="https://cdn.jsdelivr.net/gh/udbsite/adofai@f170efcb1b532312817e69f26ce3f84c99940238/Build/UnityLoader.js"><\/script></head><body><div class="webgl-content"><div id="gameContainer" style="width:100vw;height:100vh;"></div></div><script>var gameInstance=UnityLoader.instantiate("gameContainer","https://cdn.jsdelivr.net/gh/udbsite/adofai@f170efcb1b532312817e69f26ce3f84c99940238/Build/adofaiii4.json",{onProgress:UnityProgress,Module:{onRuntimeInitialized:function(){UnityProgress(gameInstance,"complete");}}});<\/script></body></html>`;
+
+  const aDarkRoomHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>A Dark Room</title><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"><\/script><script>if(!window.jQuery){document.write('<script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/jquery.min.js"><\\/script>');}<\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/jquery.color-2.1.2.min.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/jquery.event.move.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/jquery.event.swipe.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/base64.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/translate.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lang/langs.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/Button.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/audioLibrary.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/audio.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/engine.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/state_manager.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/header.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/notifications.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/room.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/outside.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/world.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/path.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/ship.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/space.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/fabricator.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/prestige.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/scoring.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/global.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/room.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/outside.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/encounters.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/setpieces.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/marketing.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/executioner.js"><\/script><script type="text/javascript">var oldIE=false;<\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/localization.js"><\/script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/main.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/room.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/outside.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/path.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/world.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/ship.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/space.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/fabricator.css"/></head><body><div id="wrapper"><div id="saveNotify"></div><div id="content"><div id="outerSlider"><div id="main"><div id="header"></div></div></div></div></div></body></html>`;
+
+  const amidstTheCloudsHTML = `<!DOCTYPE html><html lang="en"><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@de4ee4bb507b4e35d98ec9eac6794b018cfb9789/amidst%20the%20sky/"><head><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta http-equiv="pragma" content="no-cache"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta charset="utf-8"/><title>Amidst the Clouds</title><style>html,body{margin:0;padding:0;background:black;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;}canvas{display:block;width:100vw;height:100vh;object-fit:contain;background-color:black;}div.gm4html5_div_class{margin:0;padding:0;border:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;}</style></head><body><div class="gm4html5_div_class" id="gm4html5_div_id"><img src="Clouds/splash.png" id="GM4HTML5_loadingscreen" alt="loading" style="display:none;"/><canvas id="canvas" width="800" height="600"><p>Your browser doesn't support HTML5 canvas.</p></canvas></div><script type="text/javascript" src="Clouds/Clouds.js?EWYAC=887725966"><\/script><script>function resizeCanvas(){const canvas=document.getElementById("canvas");const aspect=800/600;let width=window.innerWidth;let height=window.innerHeight;if(width/height>aspect){width=height*aspect;}else{height=width/aspect;}canvas.style.width=width+"px";canvas.style.height=height+"px";}window.addEventListener("resize",resizeCanvas);window.onload=()=>{GameMaker_Init();resizeCanvas();};<\/script></body></html>`;
+
+  const amongUsHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/><title>Among Us</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mamayaya1/game@f3a882424a8f28d07bdf456b251d889725c4c1e4/projects/among-us/style.css"/></head><body><script>window.addEventListener("keydown",function(e){if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code)>-1){e.preventDefault();}},false);<\/script><noscript><div id="notSupportedWrap"><h2>This content requires JavaScript</h2></div></noscript><script src="https://cdn.jsdelivr.net/gh/mamayaya1/game@f3a882424a8f28d07bdf456b251d889725c4c1e4/projects/among-us/scripts/supportcheck.js"><\/script><script src="https://cdn.jsdelivr.net/gh/mamayaya1/game@f3a882424a8f28d07bdf456b251d889725c4c1e4/projects/among-us/scripts/offlineclient.js" type="module"><\/script><script src="https://cdn.jsdelivr.net/gh/gahaden/ags@4f1a2b8755bcbf67ba043a7eca6c2e05d0b5bfe5/main.js" type="module"><\/script><script src="https://cdn.jsdelivr.net/gh/mamayaya1/game@f3a882424a8f28d07bdf456b251d889725c4c1e4/projects/among-us/scripts/register-sw.js" type="module"><\/script></body></html>`;
+
+  const circleGameHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Circle Game</title><style>body{margin:0;padding:0;}canvas{background-color:black;}</style><script src="https://cdn.jsdelivr.net/gh/234sd4w5w45wers5tr-645758574456456/436874@80f8732e80020f5e1985fc807267ed0637e230a7/jquery-latest.min.js"><\/script><script src="https://cdn.jsdelivr.net/gh/234sd4w5w45wers5tr-645758574456456/436874@80f8732e80020f5e1985fc807267ed0637e230a7/etc.js"><\/script><script src="https://cdn.jsdelivr.net/gh/234sd4w5w45wers5tr-645758574456456/436874@80f8732e80020f5e1985fc807267ed0637e230a7/circle-game.js"><\/script><script type="text/javascript">$(document).ready(function(){if(isCanvasSupported())cg.init();else $(document.body).html("<p>Your browser does not support HTML5.</p>");});<\/script></head><body><canvas></canvas></body></html>`;
+
+  const alienSkyHTML = `<!DOCTYPE html><html lang="en-us"><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/alien%20sky%20invasion/"><head><meta charset="utf-8"><title>Alien Sky Invasion</title><link rel="stylesheet" href="TemplateData/style.css"><script src="TemplateData/UnityProgress.js"><\/script><script>window.fileMergerConfig={files:[{name:'game.data.unityweb',parts:2},{name:'game.asm.code.unityweb',parts:1},{name:'game.asm.framework.unityweb',parts:1},{name:'game.asm.memory.unityweb',parts:1}],basePath:'Build/',debug:true};<\/script><script src="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/merge.js"><\/script><script src="Build/UnityLoader.js"><\/script><style>body{overflow:hidden;}</style><script>function SubmitLeaderboardScore(s){}function GetLeaderboardEntries(){}function InitApi(a){var d=new Date();window.callTime=Math.round(d.getTime()/1000)-181;}function InitExternEval(a){ExternEval();}function ExternEval(){var d=new Date();var s=Math.round(d.getTime()/1000);if(window.callTime!=undefined&&s-window.callTime>180){window.callTime=s;}}function FitScreen(){var w=window.innerWidth;var h=window.innerHeight;document.getElementById("gameContainer").style.width=w+"px";document.getElementById("gameContainer").style.height=h+"px";}var gameInstance=UnityLoader.instantiate("gameContainer","Build/game.json",{onProgress:UnityProgress});InitApi(0);<\/script></head><body onfocus="FitScreen();" onload="FitScreen();" onresize="FitScreen();" style="width:100%;height:100%"><div class="webgl-content"><div id="gameContainer" style="width:auto;height:auto"></div></div></body></html>`;
+
+  const antimatterHTML = `<!DOCTYPE html><html lang="en"><head><base href="https://cdn.jsdelivr.net/gh/IvarK/AntimatterDimensions@master/"><meta charset="utf-8"><title>Antimatter Dimensions</title><link rel="icon" type="image/png" href="icon.png"><link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet"><link rel="stylesheet" href="stylesheets/fontawesome/css/all.css"><link rel="stylesheet" href="stylesheets/codemirror/codemirror.css"><link rel="stylesheet" href="stylesheets/codemirror/show-hint.css"><link rel="stylesheet" href="stylesheets/codemirror/lint.css"><link rel="stylesheet" href="stylesheets/codemirror/panda-syntax.css"><link rel="stylesheet" href="stylesheets/codemirror/liquibyte.css"><link rel="stylesheet" href="stylesheets/vue-sfc-classes.css"><link rel="stylesheet" href="stylesheets/ad-slider-component.css"><link rel="stylesheet" href="stylesheets/glyphs.css"><link rel="stylesheet" href="stylesheets/styles.css?3"><link rel="stylesheet" href="stylesheets/automator.css"><link rel="stylesheet" href="stylesheets/time-studies.css"><link rel="stylesheet" href="stylesheets/tooltips.css"><link rel="stylesheet" href="stylesheets/vis-network.css"><script defer src="js/chunk-vendors.2f298e3d.js"><\/script><script defer src="js/app.aefa5ffd.js"><\/script><link href="css/app.ddbf5a9f.css" rel="stylesheet"></head><body><div id="browser-warning" style="display:none;">Your browser is not supported.</div><div id="loading"></div><div id="ui"></div><div id="background-animations"><div class="videocontainer videocontainer--background"><video autoplay muted loop id="stars"><source src="images/stars-bg.webm" type="video/webm"></video></div><div id="snow" style="display:none;"></div></div><div class="videocontainer"><video preload muted id="realityanimbg" style="opacity:0;display:none;"><source src="images/realityanimbg.webm" type="video/webm"></video></div><div id="performance-stats" class="c-performance-stats" style="display:none;"></div></body></html>`;
+
+  const apesVsHeliumHTML = `<!DOCTYPE html><html lang="en-us"><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/apesvshelium/"><head><meta charset="utf-8"><title>Apes vs Helium</title><link rel="stylesheet" href="TemplateData/style.css"><script>window.fileMergerConfig={files:[{name:'AVHPort.data.unityweb',parts:3},{name:'AVHPort.wasm.code.unityweb',parts:2}],basePath:'Build/',debug:true};<\/script><script src="merge.js"><\/script><script src="TemplateData/UnityProgress.js"><\/script><script src="Build/UnityLoader.js"><\/script><script>var unityInstance=UnityLoader.instantiate("unityContainer","Build/AVHPort.json",{onProgress:UnityProgress});<\/script><style>body,html{margin:0;padding:0;width:100%;height:100%;overflow:hidden;}#unityContainer{width:100vw!important;height:100vh!important;}</style></head><body><div id="unityContainer"></div></body></html>`;
+
+  const birdsHTML = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Birds</title><style>body,html{margin:0;padding:0;overflow:hidden;}#gameContainer{width:100vw;height:100vh;padding:0;margin:0;border:0;position:relative;background:rgb(35,31,32);}#button{display:none;}</style></head><body><script src="https://cdn.jsdelivr.net/gh/lee2sman/everyday@d45d601d2c4d60adf809a0b677c00b7d12aba7e9/96/TemplateData/UnityProgress.js"><\/script><script src="https://cdn.jsdelivr.net/gh/gertdoro/UnityExplorer@cffa09e09790018403c996d37adb6c4450e8f6c6/Runtime/birds/birds.js"><\/script><script>var gameInstance=UnityLoader.instantiate("gameContainer","https://cdn.jsdelivr.net/gh/gertdoro/UnityExplorer@cffa09e09790018403c996d37adb6c4450e8f6c6/Runtime/birds/birds.json",{onProgress:UnityProgress,Module:{onRuntimeInitialized:function(){UnityProgress(gameInstance,"complete");}}});<\/script><div class="webgl-content"><div id="gameContainer"><canvas id="#canvas" width="960" height="600"></canvas></div></div></body></html>`;
+
+  const tenMinutesHTML = `<!DOCTYPE html><html lang="en-us"><head><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/10minutestilldawn/"><meta charset="utf-8"/><title>10 Minutes Till Dawn</title><style>html,body{background:#000;width:100%;height:100%;overflow:hidden;padding:0;margin:0;}div#gameContainer{background:transparent!important;position:absolute;}div#gameContainer canvas{position:absolute;}#loading-text{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-family:sans-serif;font-size:18px;}</style><script src="Build/UnityLoader.js"><\/script><script>function mergeFiles(fileParts){return new Promise((resolve,reject)=>{let buffers=[];function fetchPart(i){if(i>=fileParts.length){let mergedBlob=new Blob(buffers);resolve(mergedBlob);return;}fetch(fileParts[i]).then(r=>r.arrayBuffer()).then(data=>{buffers.push(data);fetchPart(i+1);}).catch(reject);}fetchPart(0);});}function getParts(file,start,end){let arr=[];for(let i=start;i<=end;i++){arr.push(file+".part"+i);}return arr;}function resizeUnityContainer(){var container=document.getElementById("gameContainer");if(container){container.style.width=window.innerWidth+"px";container.style.height=window.innerHeight+"px";}}window.addEventListener('resize',resizeUnityContainer);function UnityProgress(gameInstance,progress){try{if(progress==='complete')return;var pct=0;if(typeof progress==='number')pct=progress;else if(progress&&progress.total&&progress.loaded)pct=progress.loaded/progress.total;var txt=document.getElementById('loading-text');if(txt)txt.textContent='Loading... '+Math.round(pct*100)+'%';}catch(e){}}window.addEventListener("load",function(){window.unityMergedFiles={};Promise.all([mergeFiles(getParts("Build/10MinutesTillDawnWebGL.data.unityweb",1,2)),mergeFiles(getParts("Build/10MinutesTillDawnWebGL.wasm.code.unityweb",1,2)),mergeFiles(getParts("Build/10MinutesTillDawnWebGL.wasm.framework.unityweb",1,1))]).then(([dataBlob,wasmCodeBlob,wasmFrameworkBlob])=>{window.unityMergedFiles['Build/10MinutesTillDawnWebGL.data.unityweb']=URL.createObjectURL(dataBlob);window.unityMergedFiles['Build/10MinutesTillDawnWebGL.wasm.code.unityweb']=URL.createObjectURL(wasmCodeBlob);window.unityMergedFiles['Build/10MinutesTillDawnWebGL.wasm.framework.unityweb']=URL.createObjectURL(wasmFrameworkBlob);function findMergedKey(requestUrl){try{if(typeof requestUrl!=='string')return null;if(window.unityMergedFiles[requestUrl])return requestUrl;var resolved=new URL(requestUrl,window.location.href).pathname.replace(/^[\\/]+/,'');if(window.unityMergedFiles[resolved])return resolved;var withBuild='Build/'+resolved.split('/').pop();if(window.unityMergedFiles[withBuild])return withBuild;}catch(e){}return null;}const originalFetch=window.fetch.bind(window);window.fetch=function(url,...args){const key=findMergedKey(url);if(key)return originalFetch(window.unityMergedFiles[key],...args);return originalFetch(url,...args);};const OriginalXHR=window.XMLHttpRequest;window.XMLHttpRequest=function(){const xhr=new OriginalXHR();const originalOpen=xhr.open;xhr.open=function(method,url,...args){try{const key=findMergedKey(url);if(key)return originalOpen.call(this,method,window.unityMergedFiles[key],...args);}catch(e){}return originalOpen.call(this,method,url,...args);};return xhr;};window.gameInstance=UnityLoader.instantiate("gameContainer","Build/10MinutesTillDawnWebGL.json",{onProgress:UnityProgress,Module:{onRuntimeInitialized:function(){resizeUnityContainer();let t=document.querySelector("#loading-text");if(t)t.remove();UnityProgress(window.gameInstance,'complete');}}});}).catch(err=>{let txt=document.getElementById('loading-text');if(txt)txt.textContent='Loading failed: '+(err&&err.message?err.message:err);});});<\/script></head><body><div id="loading-text">Loading... 0%</div><div id="gameContainer" data-pixelated="true"></div></body></html>`;
+
+  const g2048HTML = `<!DOCTYPE html><html><base href="https://cdn.jsdelivr.net/gh/ovolve/2048-AI@master/"><head><meta charset="utf-8"><title>2048</title><link href="style/main.css" rel="stylesheet" type="text/css"><link href="style/ai.css" rel="stylesheet" type="text/css"><meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no"></head><body><div class="container"><div class="heading"><h1 class="title">2048</h1><div class="score-container">0</div></div><p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p><div class="controls"><div id="hint-button-container"><button id="hint-button" class="ai-button">Get Hint</button></div><div id="feedback-container"></div><div id="run-button-container"><button id="run-button" class="ai-button">Auto-run</button></div></div><div class="game-container"><div class="game-message"><p></p><div class="lower"><a class="retry-button">Try again</a></div></div><div class="grid-container"><div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div><div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div><div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div><div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div></div><div class="tile-container"></div></div></div><script src="js/animframe_polyfill.js"><\/script><script src="js/hammer.min.js"><\/script><script src="js/keyboard_input_manager.js"><\/script><script src="js/html_actuator.js"><\/script><script src="js/grid.js"><\/script><script src="js/tile.js"><\/script><script src="js/ai.js"><\/script><script src="js/game_manager.js"><\/script><script src="js/application.js"><\/script></body></html>`;
+
+  const smallMazesHTML = `<!DOCTYPE html><html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''><base href="https://cdn.jsdelivr.net/gh/Stinkalistic/UGS@main/MISC/20smallmazes/"><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, user-scalable=no'/><title>20 Small Mazes</title><style>body{touch-action:none;margin:0;border:0 none;padding:0;text-align:center;background-color:black;}#canvas{display:block;margin:0;color:white;}#canvas:focus{outline:none;}.godot{font-family:'Noto Sans',Arial,sans-serif;color:#e0e0e0;background-color:#3b3943;}#status{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;justify-content:center;align-items:center;visibility:hidden;}#status-progress{width:366px;height:7px;background-color:#38363A;border:1px solid #444246;padding:1px;border-radius:2px;visibility:visible;}#status-progress-inner{height:100%;width:0;transition:width 0.5s linear;background-color:#202020;border-radius:3px;}#status-indeterminate{height:42px;visibility:visible;position:relative;}#status-indeterminate>div{width:4.5px;height:0;border-style:solid;border-width:9px 3px 0 3px;border-color:#2b2b2b transparent transparent transparent;transform-origin:center 21px;position:absolute;}#status-indeterminate>div:nth-child(1){transform:rotate(22.5deg);}#status-indeterminate>div:nth-child(2){transform:rotate(67.5deg);}#status-indeterminate>div:nth-child(3){transform:rotate(112.5deg);}#status-indeterminate>div:nth-child(4){transform:rotate(157.5deg);}#status-indeterminate>div:nth-child(5){transform:rotate(202.5deg);}#status-indeterminate>div:nth-child(6){transform:rotate(247.5deg);}#status-indeterminate>div:nth-child(7){transform:rotate(292.5deg);}#status-indeterminate>div:nth-child(8){transform:rotate(337.5deg);}#status-notice{margin:0 100px;line-height:1.3;visibility:visible;padding:4px 6px;}</style></head><body><canvas id='canvas'>HTML5 canvas unsupported.</canvas><div id='status'><div id='status-progress' style='display:none;'><div id='status-progress-inner'></div></div><div id='status-indeterminate' style='display:none;'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div id='status-notice' class='godot' style='display:none;'></div></div><script src="main.js"><\/script><script src='index.js'><\/script><script>window.godotRunStart=function(){const GODOT_CONFIG={"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":35312736,"index.wasm":19761972},"focusCanvas":true,"gdnativeLibs":[]};var engine=new Engine(GODOT_CONFIG);(function(){const STEP=100;var sP=document.getElementById('status-progress');var sPI=document.getElementById('status-progress-inner');var sI=document.getElementById('status-indeterminate');var sN=document.getElementById('status-notice');var init=true;var mode='hidden';var cbs=[];function animate(t){cbs.forEach(c=>c(t));requestAnimationFrame(animate);}requestAnimationFrame(animate);function setMode(m){if(mode===m||!init)return;[sP,sI,sN].forEach(e=>{e.style.display='none';});cbs=cbs.filter(v=>v!=animInd);switch(m){case'progress':sP.style.display='block';break;case'indeterminate':sI.style.display='block';cbs.push(animInd);break;case'notice':sN.style.display='block';break;}mode=m;}function animInd(ms){var i=Math.floor(ms/STEP%8);if(sI.children[i].style.borderTopColor==''){Array.from(sI.children).forEach(c=>{c.style.borderTopColor='';});sI.children[i].style.borderTopColor='#dfdfdf';}}if(!Engine.isWebGLAvailable()){sN.textContent='WebGL not available';setMode('notice');}else{setMode('indeterminate');engine.startGame({onProgress:function(c,t){if(t>0){sPI.style.width=c/t*100+'%';setMode('progress');if(c===t)setTimeout(()=>setMode('indeterminate'),500);}else setMode('indeterminate');}}).then(()=>{setMode('hidden');init=false;},err=>{sN.textContent=err.message||err;setMode('notice');init=false;});}})();};<\/script></body></html>`;
+
+  const threeDashHTML = `<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/><title>3Dash</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bubbls/3dash@76613c9a94533ef9e6ba0e266ae18613700e3d02/style.css"/><script src="https://cdn.jsdelivr.net/gh/bubbls/3dash@76613c9a94533ef9e6ba0e266ae18613700e3d02/v2.02c5b63d689c6bc2f83c.js"><\/script><style>canvas:focus{outline:none;}html,body{padding:0;margin:0;overflow:hidden;height:100%;}</style></head><body class="dark"><div id="unity-container" class="unity-desktop"><canvas id="unity-canvas" tabindex="-1"></canvas></div><div id="loading-cover" style="display:none;"><div id="unity-loading-bar"><div id="unity-logo"><img src=""/></div><div id="unity-progress-bar-empty" style="display:none;"><div id="unity-progress-bar-full"></div></div><div class="spinner"></div></div></div><script>const buildUrl="";const loaderUrl="https://cdn.jsdelivr.net/gh/bubbls/3dash@76613c9a94533ef9e6ba0e266ae18613700e3d02/Build/GeometryDash.loader.js";const config={dataUrl:"https://cdn.jsdelivr.net/gh/bubbls/3dash@76613c9a94533ef9e6ba0e266ae18613700e3d02/Build/GeometryDash.data.unityweb",frameworkUrl:"https://cdn.jsdelivr.net/gh/bubbls/3dash@76613c9a94533ef9e6ba0e266ae18613700e3d02/Build/GeometryDash.framework.js.unityweb",codeUrl:"https://cdn.jsdelivr.net/gh/bubbls/3dash@76613c9a94533ef9e6ba0e266ae18613700e3d02/Build/GeometryDash.wasm.unityweb",streamingAssetsUrl:"StreamingAssets",companyName:"DefaultCompany",productName:"GeometryDash3d",productVersion:"0.1"};const container=document.querySelector("#unity-container");const canvas=document.querySelector("#unity-canvas");const loadingCover=document.querySelector("#loading-cover");const progressBarEmpty=document.querySelector("#unity-progress-bar-empty");const progressBarFull=document.querySelector("#unity-progress-bar-full");const spinner=document.querySelector(".spinner");loadingCover.style.background="url('https://cdn.jsdelivr.net/gh/bubbls/3dash@76613c9a94533ef9e6ba0e266ae18613700e3d02/logo.png') center / cover";loadingCover.style.display="";document.addEventListener("contextmenu",e=>e.preventDefault());function FocusGame(){window.focus();canvas.focus();}window.addEventListener("pointerdown",FocusGame);window.addEventListener("touchstart",FocusGame);let myGameInstance=null;let StartUnityInstance;const script=document.createElement("script");script.src=loaderUrl;script.onload=()=>{StartUnityInstance=function(){createUnityInstance(canvas,config,(progress)=>{spinner.style.display="none";progressBarEmpty.style.display="";progressBarFull.style.width=\`\${100*progress}%\`;}).then(u=>{myGameInstance=u;loadingCover.style.display="none";}).catch(console.error);};setTimeout(()=>{if(spinner.style.display!=="none")StartUnityInstance();},5000);};document.body.appendChild(script);<\/script></body></html>`;
+
+  const threeDashEditorHTML = `<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/><title>3Dash Editor</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/shayderrr/portsv2@main/3dasheditor/style.css"/><script src="https://cdn.jsdelivr.net/gh/shayderrr/portsv2@main/3dasheditor/v2.c68e1234372250dd975a.js"><\/script><style>canvas:focus{outline:none;}html,body{padding:0;margin:0;overflow:hidden;height:100%;}</style></head><body class="dark"><div id="unity-container" class="unity-desktop"><canvas id="unity-canvas" tabindex="-1"></canvas></div><div id="loading-cover" style="display:none;"><div id="unity-loading-bar"><div id="unity-logo"><img src="https://cdn.jsdelivr.net/gh/shayderrr/portsv2@main/3dasheditor/logo.png"/></div><div id="unity-progress-bar-empty" style="display:none;"><div id="unity-progress-bar-full"></div></div><div class="spinner"></div></div></div><script>const buildUrl="https://cdn.jsdelivr.net/gh/shayderrr/portsv2@main/3dasheditor/Build";const loaderUrl=buildUrl+"/uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu.loader.js";const config={dataUrl:buildUrl+"/uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu.data.br",frameworkUrl:buildUrl+"/uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu.framework.js",codeUrl:buildUrl+"/uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu.wasm.br",streamingAssetsUrl:"StreamingAssets",companyName:"DefaultCompany",productName:"GameometryDash3D2",productVersion:"0.0.0.1"};const canvas=document.querySelector("#unity-canvas");const loadingCover=document.querySelector("#loading-cover");const progressBarEmpty=document.querySelector("#unity-progress-bar-empty");const progressBarFull=document.querySelector("#unity-progress-bar-full");const spinner=document.querySelector(".spinner");const wasmBrUrl=buildUrl+"/uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu.wasm.br";async function combineWasmBrParts(){const parts=[];for(let i=0;i<4;i++){const r=await fetch(wasmBrUrl+".part"+i);if(!r.ok)throw new Error("WASM part failed");parts.push(new Uint8Array(await r.arrayBuffer()));}let total=0;for(const p of parts)total+=p.length;const merged=new Uint8Array(total);let off=0;for(const p of parts){merged.set(p,off);off+=p.length;}return merged.buffer;}const __of=window.fetch.bind(window);window.fetch=async function(input,init){try{const url=(typeof input==="string")?input:(input&&input.url)?input.url:"";if(url&&url.endsWith("/uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu.wasm.br")){const buf=await combineWasmBrParts();return new Response(buf,{status:200,headers:{"Content-Type":"application/octet-stream"}});}}catch(e){console.error(e);}return __of(input,init);};loadingCover.style.background="url('https://cdn.jsdelivr.net/gh/shayderrr/portsv2@main/3dasheditor/background.png') center / cover";loadingCover.style.display="";document.addEventListener("contextmenu",e=>e.preventDefault());function FocusGame(){window.focus();canvas.focus();}window.addEventListener("pointerdown",FocusGame);window.addEventListener("touchstart",FocusGame);let myGameInstance=null;const script=document.createElement("script");script.src=loaderUrl;script.onload=()=>{createUnityInstance(canvas,config,(p)=>{spinner.style.display="none";progressBarEmpty.style.display="";progressBarFull.style.width=\`\${100*p}%\`;}).then(u=>{myGameInstance=u;loadingCover.style.display="none";}).catch(console.error);};document.body.appendChild(script);<\/script></body></html>`;
+
+  const pinballHTML = `<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><base href="https://cdn.jsdelivr.net/gh/eazy-man/shHH@main/wasm/space"><title>3D Pinball Space Cadet</title><style>body{font-family:Tahoma,sans-serif;background-color:rgb(58,110,165);text-align:center;}canvas.emscripten{border:0;background-color:#000;}#status{margin:40px 32px;color:white;}</style></head><body><div class="emscripten" id="status">Downloading...</div><div class="emscripten"><progress hidden id="progress" max="100" value="0"></progress></div><canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" style="display:none" tabindex="-1"></canvas><script>var statusElement=document.getElementById("status"),progressElement=document.getElementById("progress"),Module={preRun:[],postRun:[],canvas:function(){var e=document.getElementById("canvas");e.addEventListener("webglcontextlost",(function(e){alert("WebGL context lost. You will need to reload the page.");e.preventDefault();}),false);return e;}(),setStatus:function(e){var t=e.match(/([^(]+)\((\d+(\.\d+)?)\/(\.d+)\)/),n=Date.now();if(t)e=t[1],progressElement.value=100*parseInt(t[2]),progressElement.max=100*parseInt(t[4]),progressElement.hidden=false;else progressElement.value=null,progressElement.max=null,progressElement.hidden=true,document.getElementById("canvas").style.display="";statusElement.innerHTML=e;if(e===""){statusElement.style.display="none";progressElement.style.display="none";}},totalDependencies:0,monitorRunDependencies:function(e){this.totalDependencies=Math.max(this.totalDependencies,e);Module.setStatus(e?"Preparing... ("+(this.totalDependencies-e)+"/"+this.totalDependencies+")":"All downloads complete.");}};Module.setStatus("Downloading...");window.onerror=function(){Module.setStatus("Exception thrown, see JavaScript console.");};<\/script><script async src="SpaceCadetPinball.js"><\/script></body></html>`;
+
+  const nullKevinHTML = `<!DOCTYPE html><html lang="en-us"><base href="https://cdn.jsdelivr.net/gh/Stinkalistic/junk@main/nullkevin/Build"><head><meta charset="utf-8"><title>10-103NK</title><link rel="stylesheet" href="TemplateData/style.css"><script src="TemplateData/UnityProgress.js"><\/script><script src="Build/UnityLoader.js"><\/script><script>var unityInstance=UnityLoader.instantiate("unityContainer","Build/103NK_Html5.json",{onProgress:UnityProgress});<\/script><style>body,html{margin:0;overflow:hidden;}#unityContainer{width:100vw;height:100vh;}</style></head><body><div class="webgl-content"><div id="unityContainer"></div><div class="footer"><div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div><div class="title">10-103NK</div></div></div></body></html>`;
+
+  const twoDoomHTML = `<!DOCTYPE html><html lang="en"><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@fa4f0d68a98b0667bd1cb554650c552ba00b02c5/2doom/"><head><meta charset="utf-8"/><title>2DOOM</title><style>body{background:#000;color:#ccc;margin:0;padding:0;border:0;}canvas{image-rendering:optimizeSpeed;-webkit-interpolation-mode:nearest-neighbor;-ms-touch-action:none;margin:0;padding:0;border:0;}div.gm4html5_div_class{margin:0;padding:0;border:0;}</style></head><body><div class="gm4html5_div_class" id="gm4html5_div_id"><img src="2doom/splash.png" id="GM4HTML5_loadingscreen" alt="loading" style="display:none;"/><canvas id="canvas" width="1280" height="720" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"><p>Your browser doesn't support HTML5 canvas.</p></canvas></div><script type="text/javascript" src="2doom/2DOOM.js?IFAYB=434224914"><\/script><script>window.onload=GameMaker_Init;<\/script></body></html>`;
+
+  const fourthAndGoalHTML = `<!DOCTYPE html><html style="height:100%;"><head><meta charset="utf-8"><title>4th and Goal 2022</title><style>html,body{margin:0;padding:0;overflow:hidden;}</style><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/phaser.min.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/ga.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/set.js"><\/script></head><body style="height:100%;"><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/Player.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/SceneStadium.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/ScenePlaybook.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/SceneTimeMenu.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/SceneMainMenu.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/SceneDifficultyMenu.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/SceneGameModeMenu.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/SceneTeamSelect.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/SceneTeamSelect2.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/ScenePlayoffTeamSelect.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/ScenePlayoffBracket.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/SceneGameOver.js"><\/script><script src="https://284711640-164027483921740274.preview.editmysite.com/uploads/b/139890129-601329693740539694/files/js/4.js"><\/script></body></html>`;
+
+  // NEW GAME: BFDI Branches
+  const bfdiHTML = `<!DOCTYPE html><html lang="en"><head><base href="https://cdn.jsdelivr.net/gh/playgroundfree/playgroundfree.github.io@main/bfdi-branches/cdn/gh/genizy/web-port%40main/bfdi-branches/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"><title>BFDI: Branches</title><style>html,body,#canvas{margin:0;padding:0;border:0;}body{color:white;background-color:black;overflow:hidden;touch-action:none;}#canvas{display:block;}#canvas:focus{outline:none;}#status{position:absolute;left:0;right:0;top:0;bottom:0;background-color:#000000;display:flex;flex-direction:column;justify-content:center;align-items:center;visibility:hidden;}#status-progress{display:none;bottom:10%;width:50%;margin:0 auto;}#status-notice{display:none;background-color:#5b3943;border-radius:0.5rem;border:1px solid #9b3943;color:#e0e0e0;font-family:Arial,sans-serif;padding:1rem;text-align:center;}</style></head><body><div id="loading-text" style="color:white;font-family:cursive;font-size:48px;text-align:center;margin-top:20px;">LOADING...</div><canvas id="canvas">Your browser does not support the canvas tag.</canvas><div id="status"><img id="status-splash" src="bfdi.png" alt=""><progress id="status-progress"></progress><div id="status-notice"></div></div><script src="bfdi.js"><\/script><script src="main.js"><\/script><script>const GODOT_CONFIG={"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"bfdi","experimentalVK":false,"fileSizes":{"bfdi.pck":230552576,"bfdi.wasm":51784311},"focusCanvas":true,"gdextensionLibs":[]};const GODOT_THREADS_ENABLED=false;const engine=new Engine(GODOT_CONFIG);window.godotRunStart=function(){const statusOverlay=document.getElementById('status');const statusProgress=document.getElementById('status-progress');const statusNotice=document.getElementById('status-notice');document.getElementById('loading-text').remove();let initializing=true;let statusMode='';function setStatusMode(mode){if(statusMode===mode||!initializing)return;if(mode==='hidden'){statusOverlay.remove();initializing=false;return;}statusOverlay.style.visibility='visible';statusProgress.style.display=mode==='progress'?'block':'none';statusNotice.style.display=mode==='notice'?'block':'none';statusMode=mode;}function displayFailureNotice(err){console.error(err);setStatusMode('notice');initializing=false;}const missing=Engine.getMissingFeatures({threads:GODOT_THREADS_ENABLED});if(missing.length!==0){displayFailureNotice('Missing features: '+missing.join(', '));}else{setStatusMode('progress');engine.startGame({onProgress:function(current,total){if(current>0&&total>0){statusProgress.value=current;statusProgress.max=total;}else{statusProgress.removeAttribute('value');statusProgress.removeAttribute('max');}},}).then(()=>{setStatusMode('hidden');},displayFailureNotice);}};<\/script></body></html>`;
+
+  // NEW GAME: Ballistic
+  const ballisticHTML = `<!DOCTYPE html><html><head><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/ballistic/"><meta charset="utf-8"><meta name="viewport" content="initial-scale=1,user-scalable=no"><title>Ballistic</title><style>html,body{padding:0;border:0;margin:0;height:100%;}</style></head><body><div id="gamePlace" style="height:100%;"></div><script src="pixi.js?e55f59b7dcad74494533"><\/script><script src="main.js?e55f59b7dcad74494533"><\/script></body></html>`;
+
+  // NEW GAME: Balls and Bricks
+  const ballsAndBricksHTML = `<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="user-scalable=no"><title>Balls and Bricks</title><script>window.addEventListener("load",function(){function onTouchPreventDefault(event){event.preventDefault();}document.addEventListener("touchmove",onTouchPreventDefault,false);document.addEventListener("touchstart",onTouchPreventDefault,false);},false);<\/script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bubbls/ruffle@cb9c5cd6a1fe0b07adf5a80f58098808189ff4cb/normalize.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bubbls/ruffle@cb9c5cd6a1fe0b07adf5a80f58098808189ff4cb/game.css" type="text/css"></head><body style="background-color:#000000"><div id="game"><script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@cb9c5cd6a1fe0b07adf5a80f58098808189ff4cb/jsg.js"><\/script></div><script src="https://cdn.jsdelivr.net/gh/st39/sdk@main/api.js"><\/script></body></html>`;
+
+  // NEW GAME: BallZ
+  const ballzHTML = `<!DOCTYPE html><html lang="en"><head><base href="https://cdn.jsdelivr.net/gh/ccported/games@c511baeb6639c3a210f166b0e47bd7d2f7d5dde9/game_a1a3_7ed8bf533bbdd/"><script>(function(){var base=document.querySelector('base');var CDN_BASE=base?base.href:'';if(!CDN_BASE)return;function isRelative(url){return typeof url==='string'&&!/^(?:[a-z]+:)?\/\//i.test(url)&&url[0]!=='/';}var origFetch=window.fetch;window.fetch=function(input,init){if(typeof input==='string'&&isRelative(input)){input=CDN_BASE+input;}else if(input&&input.url&&isRelative(input.url)){input=new Request(CDN_BASE+input.url,input);}return origFetch.call(this,input,init);};var OrigXHR=window.XMLHttpRequest;function PatchedXHR(){var xhr=new OrigXHR();var origOpen=xhr.open;xhr.open=function(method,url){if(isRelative(url)){url=CDN_BASE+url;}return origOpen.apply(this,arguments);};return xhr;}PatchedXHR.prototype=OrigXHR.prototype;window.XMLHttpRequest=PatchedXHR;})();<\/script><script>window.gameID="game_a1a3_7ed8bf533bbdd";window.ccPorted={gameID:"game_a1a3_7ed8bf533bbdd"};<\/script><script src="https://cdn.jsdelivr.net/gh/ccported/games@c511baeb6639c3a210f166b0e47bd7d2f7d5dde9/big_game_script.js"><\/script><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BallZ</title><link rel="stylesheet" href="styles.css"></head><body><div class="game-container"><canvas id="can"></canvas></div><script src="game.js"><\/script></body></html>`;
+
+  // NEW GAME: Barry Has a Secret
+  const barryHTML = `<!DOCTYPE html><html lang="en-us"><head><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/barry%20has%20a%20secret/"><meta charset="utf-8"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Barry Has a Secret</title><link rel="stylesheet" href="TemplateData/style.css"><script>window.fileMergerConfig={files:[{name:'BarryHasSecret_WebGL_0023.data.unityweb',parts:3},{name:'BarryHasSecret_WebGL_0023.asm.framework.unityweb',parts:1},{name:'BarryHasSecret_WebGL_0023.asm.memory.unityweb',parts:1},{name:'BarryHasSecret_WebGL_0023.asm.code.unityweb',parts:1}],basePath:'Build/',debug:true};<\/script><script src="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/merge.js"><\/script><script src="TemplateData/UnityProgress.js"><\/script><script src="Build/UnityLoader.js"><\/script><script>var gameInstance=UnityLoader.instantiate("gameContainer","Build/BarryHasSecret_WebGL_0023.json",{onProgress:UnityProgress});<\/script></head><body><div class="webgl-content"><div id="gameContainer" style="width:960px;height:600px"></div><div class="footer"><div class="webgl-logo"></div><div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div><div class="title">BarryHasSecret</div></div></div></body></html>`;
+
+  // NEW GAME: Basket Random 2
+  const basketRandom2HTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Basket Random</title><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bubbls/ruffle@1520d90d7b2994737acd8f7a633d018f63c22ca7/style.css" type="text/css"><script>window.addEventListener("keydown",function(e){if([32,37,38,39,40].indexOf(e.keyCode)>-1){e.preventDefault();}},false);<\/script></head><body><div id="fb-root"></div><script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@1520d90d7b2994737acd8f7a633d018f63c22ca7/box2d.js"><\/script><noscript><div id="notSupportedWrap"><h2>This content requires JavaScript</h2></div></noscript><script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@1520d90d7b2994737acd8f7a633d018f63c22ca7/suppoortcheck.js"><\/script><script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@1520d90d7b2994737acd8f7a633d018f63c22ca7/offclient.js" type="module"><\/script><script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@1520d90d7b2994737acd8f7a633d018f63c22ca7/main.js" type="module"><\/script><script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@1520d90d7b2994737acd8f7a633d018f63c22ca7/registersw.js" type="module"><\/script><script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@1520d90d7b2994737acd8f7a633d018f63c22ca7/api.js"><\/script></body></html>`;
+
+  // NEW GAME: Basketball Stars D2
+  const basketballStarsD2HTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yrgen73/BSD2@174be0db9145f7375365bda889a200e5cd31bbe0/style.css" type="text/css"></head><body><div id="fb-root"></div><script src="https://cdn.jsdelivr.net/gh/yrgen73/BSD2@174be0db9145f7375365bda889a200e5cd31bbe0/box2d.wasm.js"><\/script><noscript><div id="notSupportedWrap"><h2>This content requires JavaScript</h2></div></noscript><script src="https://cdn.jsdelivr.net/gh/yrgen73/BSD2@6afc68a9cabdefddeac8d6897c714b752a3a8845/scripts/supportcheck.js"><\/script><script src="https://cdn.jsdelivr.net/gh/yrgen73/BSD2@6afc68a9cabdefddeac8d6897c714b752a3a8845/scripts/offlineclient.js"><\/script><script src="https://cdn.jsdelivr.net/gh/yrgen73/BSD2@6afc68a9cabdefddeac8d6897c714b752a3a8845/scripts/main.js"><\/script><script src="https://cdn.jsdelivr.net/gh/yrgen73/BSD2@6afc68a9cabdefddeac8d6897c714b752a3a8845/scripts/register-sw.js"><\/script></body></html>`;
+
+  // NEW GAME: Batter Up
+  const batterUpHTML = `<!DOCTYPE html><html lang="en"><base href="https://cdn.jsdelivr.net/gh/Stinkalistic/junk@main/batterup/"><head><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta charset="utf-8"/><title>Batter Up!</title><style>body{background:#000;color:#cccccc;margin:0;padding:0;border:0;}canvas{image-rendering:optimizeSpeed;-webkit-interpolation-mode:nearest-neighbor;-ms-touch-action:none;touch-action:none;margin:0;padding:0;border:0;}:-webkit-full-screen #canvas{width:100%;height:100%;}div.gm4html5_div_class{margin:0;padding:0;border:0;}</style></head><body><div class="gm4html5_div_class" id="gm4html5_div_id"><canvas id="canvas" width="640" height="360" style="position:absolute;top:50%;left:50%;bottom:-50%;right:-50%;transform:translate(-50%,-50%);"><p>Your browser doesn't support HTML5 canvas.</p></canvas></div><script type="text/javascript" src="html5game/Batter Up.js?cachebust=145818908"><\/script><script>window.onload=GameMaker_Init;<\/script></body></html>`;
+
+
+  // NEW GAME: Battle for Dream Island (tabs)
+  const bfdiTabsHTML = `<!DOCTYPE html><html><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/paigerodeghero/academicwebsite@897c910c65e6c68b04c44a6b6eba0b99d0f2f2cf/TemplateData/style.css"><script src="https://cdn.jsdelivr.net/gh/paigerodeghero/academicwebsite@897c910c65e6c68b04c44a6b6eba0b99d0f2f2cf/TemplateData/UnityProgress.js"><\/script><script src="https://cdn.jsdelivr.net/gh/gertdoro/UnityBookPage@d022f9378a6b8608796253add7a654c14920f454/Assets/Book-Page%20Curl/sprites/tabs.js"><\/script><script>var gameInstance=UnityLoader.instantiate("gameContainer","https://cdn.jsdelivr.net/gh/gertdoro/UnityBookPage@d022f9378a6b8608796253add7a654c14920f454/Assets/Book-Page%20Curl/sprites/tabs.json",{onProgress:UnityProgress,Module:{onRuntimeInitialized:function(){UnityProgress(gameInstance,"complete");}}});<\/script></head><body><div class="webgl-content"><div id="gameContainer" style="width:100vw;height:100vh"></div></div></body></html>`;
+
+  // NEW GAME: Beach Boxing Simulator
+  const beachBoxingHTML = `<!DOCTYPE html><html><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/beach-boxing-sim/"><head><meta charset="utf-8"><title>Beach Boxing Simulator</title><script>window.config={loader:'unity-2020',debug:false,maxRatio:24/9,minRatio:9/24,title:'Beach Boxing Simulator',thumbnail:'https://img.poki-cdn.com/76edc3ec5f226c9c94427635422bbfe5.png',numScreenshots:0,unityVersion:'2022.3.34f1',unityWebglBuildUrl:'',fileSize:10,cachedDecompressedFileSizes:{'1e6e2099735d9d319c30a11c38444706.data.unityweb':5400213,'4395b1d51f6d2ab15a0532d8207d5e62.wasm.unityweb':4570980,'9853637125e801e9aae48e78dbbdcfca.loader.js':114374,'f15ba87b6837bc60bda6ba7b81dc91b8.framework.js.unityweb':68195},metadata:{poki_template_version:1,background_color:"#000000",code_filename:"4395b1d51f6d2ab15a0532d8207d5e62.wasm.unityweb",company_name:"DefaultCompany",data_filename:"1e6e2099735d9d319c30a11c38444706.data.unityweb",decompression_fallback:"Brotli",development_player:"false",framework_filename:"f15ba87b6837bc60bda6ba7b81dc91b8.framework.js.unityweb",height:"600",loader_filename:"9853637125e801e9aae48e78dbbdcfca.loader.js",product_name:"Obby World",product_version:"0.1",unity_version:"2022.3.34f1",use_wasm:"true",use_webgl_2_0:"true",width:"960"}};<\/script></head><body><script src="loaders/v3/master-loader.js"><\/script></body></html>`;
+
+  // NEW GAME: Bearsus
+  const bearsusHTML = `<!DOCTYPE html><html><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/bearsus/"><head><meta charset="UTF-8"><title>Bearsus</title><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="style.css"></head><body><noscript><div id="notSupportedWrap"><h2>This content requires JavaScript</h2></div></noscript><script src="poki-sdk.js"><\/script><script src="scripts/supportcheck.js"><\/script><script src="scripts/offlineclient.js" type="module"><\/script><script src="scripts/main.js" type="module"><\/script><script src="scripts/register-sw.js" type="module"><\/script></body></html>`;
+
+  // NEW GAME: Battle for Dream Island (HTML5b)
+  const bfdiHTML5bHTML = `<!DOCTYPE html><html lang="en"><head><base href="https://cdn.jsdelivr.net/gh/coppersalts/HTML5b@master/"><title>HTML5b - Battle for Dream Island</title><link rel="stylesheet" href="style.css" type="text/css"/><script type="text/javascript" src="5b.js"><\/script></head><body><div id="center"><div id="hide-contenteditable"><canvas id="cnv" contenteditable="false"></canvas></div></div></body></html>`;
+
+  // NEW GAME: Bad Time Simulator
+  const badTimeHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Bad Time Simulator (Sans Fight)</title><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"><meta name="apple-mobile-web-app-capable" content="yes"><style type="text/css">*{padding:0;margin:0;}html,body{background:#000;color:#fff;overflow:hidden;touch-action:none;-ms-touch-action:none;}canvas{touch-action:none;-ms-touch-action:none;}</style><script src="offlineClient.js"><\/script></head><body><div id="c2canvasdiv" style="width:640px;height:480px;margin-left:342px;margin-top:202px;"><canvas id="c2canvas" width="640" height="480" style="width:640px;height:480px;"></canvas></div><script src="https://cdn.jsdelivr.net/gh/nbjrkzddz/5yrgdegfwfew4@d3772e576f5a2ad716d32ace9c7e5b94f59ded9e/bigfoot/g/gfiles/gfiles/html5/sans-fight/jquery-3.4.1.min.js"><\/script><script src="https://cdn.jsdelivr.net/gh/bobydob/JSEngine@4c04e7fb85008b3d23ba8848826ba2c0a859fa4f/build/bts-sans/c2.js"><\/script><script>jQuery(document).ready(function(){cr_createRuntime("c2canvas");});function onVisibilityChanged(){if(document.hidden||document.mozHidden||document.webkitHidden||document.msHidden)cr_setSuspended(true);else cr_setSuspended(false);}document.addEventListener("visibilitychange",onVisibilityChanged,false);document.addEventListener("mozvisibilitychange",onVisibilityChanged,false);document.addEventListener("webkitvisibilitychange",onVisibilityChanged,false);document.addEventListener("msvisibilitychange",onVisibilityChanged,false);<\/script></body></html>`;
+
+  // NEW GAME: Bad Piggies
+  const badPiggiesHTML = `<!DOCTYPE html><html lang="en-us"><head><base href="https://cdn.jsdelivr.net/gh/67-Factory/web-ports@main/badpiggies/"><meta charset="utf-8"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Bad Piggies</title><link rel="stylesheet" href="TemplateData/style.css"><script src="TemplateData/UnityProgress.js"><\/script><script src="Build/UnityLoader.js"><\/script><style>html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;}.webgl-content{width:100%;height:100%;}#gameContainer{width:100vw;height:100vh;}</style><script>var gameInstance=UnityLoader.instantiate("gameContainer","Build/Bad Piggies.json",{onProgress:UnityProgress});<\/script></head><body style="background-color:black;"><div class="webgl-content"><div id="gameContainer"></div></div></body></html>`;
+
+  // NEW GAME: Bad Monday Simulator
+  const badMondayHTML = `<!DOCTYPE html><html lang="en"><head><base href="https://cdn.jsdelivr.net/gh/Stinkalistic/junk@main/badmondaysimulator/"><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta http-equiv="pragma" content="no-cache"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta charset="utf-8"/><title>Bad Monday Simulator</title><style>body{background:#000;color:#cccccc;margin:0;padding:0;border:0;}canvas{image-rendering:optimizeSpeed;-webkit-interpolation-mode:nearest-neighbor;-ms-touch-action:none;margin:0;padding:0;border:0;}:-webkit-full-screen #canvas{width:100%;height:100%;}div.gm4html5_div_class{margin:0;padding:0;border:0;}</style></head><body><div class="gm4html5_div_class" id="gm4html5_div_id"><canvas id="canvas" width="640" height="480" style="position:absolute;top:50%;left:50%;bottom:-50%;right:-50%;transform:translate(-50%,-50%);"><p>Your browser doesn't support HTML5 canvas.</p></canvas></div><script type="text/javascript" src="html5game/Sansfield.js?MMCYB=1228645331"><\/script><script>window.onload=GameMaker_Init;<\/script></body></html>`;
+
+  // NEW GAME: Bad Bodyguards
+  const badBodyguardsHTML = `<!DOCTYPE html><html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''><head><base href="https://cdn.jsdelivr.net/gh/Stinkalistic/UGS@main/MISC/badbodyguards/"><meta charset='utf-8'/><meta name='viewport' content='width=device-width, user-scalable=no'/><title>Bad Bodyguards</title><style type='text/css'>body{touch-action:none;margin:0;border:0 none;padding:0;text-align:center;background-color:black;}#canvas{display:block;margin:0;color:white;}#canvas:focus{outline:none;}.godot{font-family:'Noto Sans',Arial,sans-serif;color:#e0e0e0;background-color:#3b3943;}#status{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;justify-content:center;align-items:center;visibility:hidden;}#status-progress{width:366px;height:7px;background-color:#38363A;border:1px solid #444246;padding:1px;border-radius:2px;visibility:visible;}#status-progress-inner{height:100%;width:0;transition:width 0.5s linear;background-color:#202020;border-radius:3px;}#status-indeterminate{height:42px;visibility:visible;position:relative;}#status-indeterminate>div{width:4.5px;height:0;border-style:solid;border-width:9px 3px 0 3px;border-color:#2b2b2b transparent transparent transparent;transform-origin:center 21px;position:absolute;}#status-indeterminate>div:nth-child(1){transform:rotate(22.5deg);}#status-indeterminate>div:nth-child(2){transform:rotate(67.5deg);}#status-indeterminate>div:nth-child(3){transform:rotate(112.5deg);}#status-indeterminate>div:nth-child(4){transform:rotate(157.5deg);}#status-indeterminate>div:nth-child(5){transform:rotate(202.5deg);}#status-indeterminate>div:nth-child(6){transform:rotate(247.5deg);}#status-indeterminate>div:nth-child(7){transform:rotate(292.5deg);}#status-indeterminate>div:nth-child(8){transform:rotate(337.5deg);}#status-notice{margin:0 100px;line-height:1.3;visibility:visible;padding:4px 6px;}</style></head><body><canvas id='canvas'>HTML5 canvas unsupported.</canvas><div id='status'><div id='status-progress' style='display:none;'><div id='status-progress-inner'></div></div><div id='status-indeterminate' style='display:none;'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div id='status-notice' class='godot' style='display:none;'></div></div><script type='text/javascript' src='index.js'><\/script><script type='text/javascript'>const GODOT_CONFIG={"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":457440,"index.wasm":13789463},"focusCanvas":true,"gdnativeLibs":[]};var engine=new Engine(GODOT_CONFIG);(function(){const STEP=100;var sP=document.getElementById('status-progress');var sPI=document.getElementById('status-progress-inner');var sI=document.getElementById('status-indeterminate');var sN=document.getElementById('status-notice');var init=true;var mode='hidden';var cbs=[];function animate(t){cbs.forEach(c=>c(t));requestAnimationFrame(animate);}requestAnimationFrame(animate);function setMode(m){if(mode===m||!init)return;[sP,sI,sN].forEach(e=>{e.style.display='none';});cbs=cbs.filter(v=>v!=animInd);switch(m){case'progress':sP.style.display='block';break;case'indeterminate':sI.style.display='block';cbs.push(animInd);break;case'notice':sN.style.display='block';break;}mode=m;}function animInd(ms){var i=Math.floor(ms/STEP%8);if(sI.children[i].style.borderTopColor==''){Array.from(sI.children).forEach(c=>{c.style.borderTopColor='';});sI.children[i].style.borderTopColor='#dfdfdf';}}function fail(err){var msg=err.message||err;console.error(msg);sN.textContent=msg;setMode('notice');init=false;}if(!Engine.isWebGLAvailable()){fail('WebGL not available');}else{setMode('indeterminate');engine.startGame({onProgress:function(c,t){if(t>0){sPI.style.width=c/t*100+'%';setMode('progress');if(c===t)setTimeout(()=>setMode('indeterminate'),500);}else setMode('indeterminate');}}).then(()=>{setMode('hidden');init=false;},fail);}})();<\/script></body></html>`;
+
+  // NEW GAME: Bacon May Die
+  const baconMayDieHTML = `<!DOCTYPE html><html lang="en"><head><meta http-equiv="X-UA-Compatible" content="IE=edge"/><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@23edae6437a2cded4027d5c487fc9f6362e3ebfd/bacon%20may%20die/"><meta http-equiv="pragma" content="no-cache"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta charset="utf-8"/><title>Bacon May Die</title><script src="poki-sdk.js"><\/script><script>var adsAreDisabled=true;<\/script><script src="html5game/prebid/ads.js"><\/script><style>html{height:100%;width:100%;}body{background:#f3c2b5;color:#cccccc;margin:0;padding:0;border:0;overflow:hidden;height:100%;background-color:#191923;background-image:url('html5game/bg.jpg');background-repeat:repeat-x;background-position:center center;background-size:0 0;}#bar{position:fixed;height:56%;width:5px;top:0;left:0;right:0;margin:0 auto;padding:3px;background:#191923;background-color:rgba(25,25,35,0.5);z-index:-9999;}img#spider{position:absolute;left:-67px;bottom:-30px;}#fill{position:relative;height:1%;background:#a4a6b5;width:5px;margin:0;}img.torch{position:fixed;height:128px;width:128px;top:30%;background:url('html5game/tbg.png') 50% 50% no-repeat;background-size:128px;}#t1{left:20%;}#t2{right:20%;}img#door{position:fixed;top:35%;left:0;right:0;margin:0 auto;z-index:10;display:none;}canvas{image-rendering:optimizeSpeed;-webkit-interpolation-mode:nearest-neighbor;-ms-touch-action:none;margin:0;padding:0;border:0;display:none;}#canvas,canvas{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}:-webkit-full-screen #canvas{width:100%;height:100%;}div.gm4html5_div_class{margin:0;padding:0;border:0;}</style></head><body id="body"><div class="gm4html5_div_class" id="gm4html5_div_id"><canvas id="canvas" width="1024" height="576"><p>Your browser doesn't support HTML5 canvas.</p></canvas><script type="text/javascript" src="html5game/BaconMayDie.js"><\/script></div><div id="bar"><div id="fill"><img id="spider" alt="" src="html5game/spider.png"/></div></div><div id="decor"><img class="torch" id="t1" src="html5game/torch.gif" alt=""/><img class="torch" id="t2" src="html5game/torch.gif" alt=""/><img id="door" alt="" src="html5game/door.png"/></div><script>var sdk=PokiSDK;var pokiDebug=false;var canvas=document.getElementById("canvas");var body=document.getElementById("body");var bar=document.getElementById("bar");var fill=document.getElementById("fill");var decor=document.getElementById("decor");var fakeCent=1;var fakeCentTarget=75;var fails=0;function poki_log(t){console.log(t);}function poki_debug(){return pokiDebug;}function poki_loading(progress){fakeCentTarget=Math.max(fakeCentTarget,progress*100);sdk.gameLoadingProgress({percentageDone:progress*0.9});if(progress==1){setTimeout(function(){clearInterval(fakeLoading);bar.style.display="none";decor.style.display="none";canvas.style.display="block";},1000);}}function bar_update(progress){progress=Math.max(fakeCent,progress);fill.style.height=progress+"%";}var fakeLoading=setInterval(function(){fakeCent=loading_lerp(fakeCent,fakeCentTarget,0.05);bar_update(fakeCent);},20);function gamemaker_start(){try{GameMaker_Init();}catch(err){fails++;setTimeout(gamemaker_start,5000);if(fails==1)throw(err);}}var bgScale=window.innerHeight/1024;body.style.backgroundSize=(512*bgScale)+"px "+(1024*bgScale)+"px";window.onload=function(){sdk.init().then(()=>{setTimeout(gamemaker_start,adsAreDisabled?5000:1);sdk.setDebug(pokiDebug);sdk.gameLoadingStart();}).catch(()=>{gamemaker_start();});canvas.width=window.innerWidth;canvas.height=window.innerHeight;canvas.addEventListener('click',function(){window.focus();});};window.addEventListener('wheel',ev=>ev.preventDefault(),{passive:false});window.addEventListener('keydown',ev=>{if(['ArrowDown','ArrowUp',' '].includes(ev.key)){ev.preventDefault();}});function loading_lerp(start,end,amt){return(1-amt)*start+amt*end;}<\/script></body></html>`;
+
+  // NEW GAME: Backrooms
+  const backroomsHTML = `<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><title>Backrooms</title><link href="https://cdn.jsdelivr.net/gh/aKevbo/lumassets@39dcf72cfd3d38396758105fcd0a41ac651a0bc1/backrooms/TemplateData/style.css" rel="stylesheet"><style>::-webkit-scrollbar{width:0;}body{margin:0;padding:0;overflow:hidden;background:#000;}#gameContainer{width:100vw;height:100vh;}</style></head><body><script src="https://cdn.jsdelivr.net/gh/aKevbo/lumassets@39dcf72cfd3d38396758105fcd0a41ac651a0bc1/backrooms/TemplateData/UnityProgress.js"><\/script><script src="https://cdn.jsdelivr.net/gh/aKevbo/lumassets@39dcf72cfd3d38396758105fcd0a41ac651a0bc1/backrooms/Build/UnityLoader.js"><\/script><script>var gameInstance=UnityLoader.instantiate("gameContainer","https://cdn.jsdelivr.net/gh/aKevbo/lumassets@39dcf72cfd3d38396758105fcd0a41ac651a0bc1/backrooms/Build/WebGL.json",{onProgress:UnityProgress});<\/script><div class="webgl-content"><div id="gameContainer" style="width:100vw;height:100vh;padding:0;margin:0;border:0;position:relative;background:url('https://cdn.jsdelivr.net/gh/aKevbo/lumassets@39dcf72cfd3d38396758105fcd0a41ac651a0bc1/backrooms/Build/WebGL.jpg') center center / cover;"></div></div></body></html>`;
+
+  // NEW GAME: Sniper
+  const sniperHTML = `<!DOCTYPE html><html lang="en-us"><base href="https://cdn.jsdelivr.net/gh/Stinkalistic/UGS@main/UNITY/sniper/"><head><meta charset="utf-8"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Sniper</title><style>html,body{background:#000;width:100%;height:100%;overflow:visible;padding:0;margin:0;}#gameContainer{background:transparent!important;position:absolute;}#gameContainer canvas{position:absolute;}#gameContainer canvas[data-pixel-art="true"]{image-rendering:optimizeSpeed;image-rendering:-webkit-crisp-edges;image-rendering:-moz-crisp-edges;image-rendering:-o-crisp-edges;image-rendering:crisp-edges;image-rendering:pixelated;-ms-interpolation-mode:nearest-neighbor;}#loading-text{color:white;font-family:sans-serif;text-align:center;margin-top:1em;}</style></head><body><div id="gameContainer"><canvas id="unity-canvas" data-pixel-art></canvas><div id="loading-text">LOADING...</div></div><script src="Build/loader.js"><\/script><script>if(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)){const meta=document.createElement('meta');meta.name='viewport';meta.content='width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';document.head.appendChild(meta);}const loadingText=document.querySelector("#loading-text");let totalBytes=0;let loadedBytes=0;function formatSize(bytes){if(bytes>1024*1024*1024)return(bytes/(1024*1024*1024)).toFixed(2)+" GB";if(bytes>1024*1024)return(bytes/(1024*1024)).toFixed(2)+" MB";if(bytes>1024)return(bytes/1024).toFixed(2)+" KB";return bytes+" B";}async function getSize(url){try{const res=await fetch(url,{method:"HEAD"});return parseInt(res.headers.get("Content-Length")||"0",10);}catch{return 0;}}async function fetchPart(url){const response=await fetch(url);if(!response.body){const ab=await response.arrayBuffer();loadedBytes+=ab.byteLength;loadingText.textContent="LOADING... "+formatSize(loadedBytes)+" / "+formatSize(totalBytes);return new Uint8Array(ab);}const reader=response.body.getReader();const chunks=[];let received=0;while(true){const{done,value}=await reader.read();if(done)break;received+=value.length;loadedBytes+=value.length;chunks.push(value);const percent=totalBytes>0?((loadedBytes/totalBytes)*100).toFixed(1):"?";loadingText.textContent="LOADING... "+formatSize(loadedBytes)+" / "+formatSize(totalBytes)+" ("+percent+"%)";}const full=new Uint8Array(received);let offset=0;for(let chunk of chunks){full.set(chunk,offset);offset+=chunk.length;}return full;}async function mergeParts(parts,mimeType){const buffers=await Promise.all(parts.map(fetchPart));const totalLen=buffers.reduce((s,b)=>s+b.length,0);const concatenated=new Uint8Array(totalLen);let off=0;for(let b of buffers){concatenated.set(b,off);off+=b.length;}return URL.createObjectURL(new Blob([concatenated],{type:mimeType||undefined}));}function getParts(file,count){const parts=[];for(let i=1;i<=count;i++)parts.push(file+".part"+i);return parts;}(async()=>{try{const dataParts=getParts("Build/New folder (2).data",7);const wasmParts=getParts("Build/New folder (2).wasm",2);const allParts=[...dataParts,...wasmParts,"Build/framework.js"];const sizes=await Promise.all(allParts.map(getSize));totalBytes=sizes.reduce((a,b)=>a+b,0);const[dataUrl,wasmUrl,frameworkUrl]=await Promise.all([mergeParts(dataParts),mergeParts(wasmParts),mergeParts(["Build/framework.js"],'application/javascript')]);const canvas=document.querySelector("#unity-canvas");let scaleToFit=true;function onResize(){const container=canvas.parentElement;let w,h;if(scaleToFit){w=window.innerWidth;h=window.innerHeight;const r=540/960;if(w*r>window.innerHeight)w=Math.min(w,Math.ceil(h/r));h=Math.floor(w*r);}else{w=960;h=540;}container.style.width=canvas.style.width=w+"px";container.style.height=canvas.style.height=h+"px";container.style.top=Math.floor((window.innerHeight-h)/2)+"px";container.style.left=Math.floor((window.innerWidth-w)/2)+"px";}window.addEventListener('resize',onResize);onResize();await(async function waitForLoader(){if(typeof createUnityInstance==='function')return;await new Promise(resolve=>{const check=setInterval(()=>{if(typeof createUnityInstance==='function'){clearInterval(check);resolve();}},50);});})();const config={dataUrl:dataUrl,frameworkUrl:frameworkUrl,codeUrl:wasmUrl,streamingAssetsUrl:"https://cdn.jsdelivr.net/gh/Stinkalistic/UGS@main/UNITY/sniper/StreamingAssets",companyName:"",productName:"",productVersion:""};createUnityInstance(canvas,config,(progress)=>{const percent=Math.round(progress*100);loadingText.textContent="LOADING... "+percent+"%";}).then((unityInstance)=>{loadingText.remove();}).catch((message)=>{loadingText.textContent='Failed to start Unity: '+message;console.error(message);});}catch(err){loadingText.textContent='ERROR: '+(err.message||err);console.error(err);}})();<\/script></body></html>`;
+
+  // NEW GAME: Baby Chicco Adventures
+  const babyChiccoHTML = `<!DOCTYPE html><html><head><link href="https://372518406-153950463925106749.preview.editmysite.com/uploads/b/139890129-156013607588663671/files/style.css" rel="stylesheet" type="text/css"><meta charset="UTF-8"><title>Baby Chicco Adventures</title><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport"></head><body dir="ltr"><noscript><div id="notSupportedWrap"><h2>This content requires JavaScript</h2></div></noscript><script>window.addEventListener("keydown",function(e){if([32,37,38,39,40].indexOf(e.keyCode)>-1){e.preventDefault();}},false);<\/script><script src="https://372518406-153950463925106749.preview.editmysite.com/uploads/b/139890129-156013607588663671/files/scripts/supportcheck.js"><\/script><script src="https://372518406-153950463925106749.preview.editmysite.com/uploads/b/139890129-156013607588663671/files/scripts/offlineclient.js" type="module"><\/script><script src="https://372518406-153950463925106749.preview.editmysite.com/uploads/b/139890129-156013607588663671/files/scripts/main.js" type="module"><\/script><script src="https://372518406-153950463925106749.preview.editmysite.com/uploads/b/139890129-156013607588663671/files/scripts/register-sw.js" type="module"><\/script></body></html>`;
+
+  // NEW GAME: Babel Tower
+  const babelTowerHTML = `<!DOCTYPE html><html><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@ab3e2b7f551bcab53684a867b5bc3acfd406ebc6/babel%20tower/"><head><style type="text/css">body{background:#000000;padding:0px;margin:0px;}</style><script src="scripts/lz-string.min.js"><\/script><script src="scripts/phaser.min.js"><\/script><script src="scripts/ag.min.js"><\/script><script src="scripts/hello-compiled.js"><\/script></head><body><div id="thegame"></div></body></html>`;
+
+
+  // NEW GAME: 8 Ball Billiards Classic
+  const eightBallHTML = `<html><head><base href="https://cdn.jsdelivr.net/gh/bubbls/youtube-playables@main/8-ball-classic/"><meta content="text/html;charset=utf-8" http-equiv="Content-Type"><meta content="utf-8" http-equiv="encoding"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"/><title>8 Ball Billiards Classic</title><style>html,body{background:#000000;}</style><script src="https://cdn.jsdelivr.net/gh/bubbls/youtube-playables@main/ytgame.js"><\/script><script>ytgame.game.firstFrameReady();<\/script><script>window.famobi_gameID="8-ball-billiards-classic";window.famobi_gameJS=["assets/src/01phaser.js","assets/src/02Ball.js","assets/src/03contactListener.js","assets/src/04billiardPhysics.js","assets/src/05levelData.js","assets/src/06maths.js","assets/src/07vector2d.js","assets/src/08render.js","assets/src/09sound.js","assets/src/10effects.js","assets/src/11timer.js","assets/src/12load.js","assets/src/13mainMenu.js","assets/src/14setup.js","assets/src/15gameController.js","assets/src/16boot.js",function(){}];(function(document,url,fgJS,firstJS){fgJS=document.createElement('script');firstJS=document.getElementsByTagName('script')[0];fgJS.src=url+"";firstJS.parentNode.insertBefore(fgJS,firstJS);})(document,'html5games/gameapi/v1.js');<\/script></head><body><center><div id="mygame"></div></center></body></html>`;
+
+  // NEW GAME: 500 Caliber Contractz
+  const fiveHundredCaliberHTML = `<!DOCTYPE html>
+<html lang="en-us">
+<base href="https://cdn.jsdelivr.net/gh/Stinkalistic/UGS@main/UNITY/500calibercontractz/">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>500 Caliber Contractz</title>
+  <style>
+    html, body {
+      background: #000;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      padding: 0;
+      margin: 0;
+    }
+    #gameContainer {
+      background: transparent !important;
+      position: absolute;
+    }
+    #gameContainer canvas {
+      position: absolute;
+    }
+    #gameContainer canvas[data-pixel-art="true"] {
+      image-rendering: optimizeSpeed;
+      image-rendering: -webkit-crisp-edges;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-crisp-edges;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+      -ms-interpolation-mode: nearest-neighbor;
+    }
+    #loading-text {
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameContainer">
+    <canvas id="unity-canvas" data-pixel-art></canvas>
+    <div id="loading-text">LOADING...</div>
+  </div>
+  <script src="Build/loader.js"><\/script>
+  <script>
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      const meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+      document.head.appendChild(meta);
+    }
+    const loadingText = document.querySelector("#loading-text");
+    let totalBytes = 0;
+    let loadedBytes = 0;
+    function formatSize(bytes) {
+      if (bytes > 1024 * 1024 * 1024) return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+      if (bytes > 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+      if (bytes > 1024) return (bytes / 1024).toFixed(2) + " KB";
+      return bytes + " B";
+    }
+    async function getSize(url) {
+      try {
+        const res = await fetch(url, { method: "HEAD" });
+        return parseInt(res.headers.get("Content-Length") || "0", 10);
+      } catch { return 0; }
+    }
+    async function fetchPart(url) {
+      const response = await fetch(url);
+      if (!response.body) {
+        const ab = await response.arrayBuffer();
+        loadedBytes += ab.byteLength;
+        loadingText.textContent = "LOADING... " + formatSize(loadedBytes) + " / " + formatSize(totalBytes);
+        return new Uint8Array(ab);
+      }
+      const reader = response.body.getReader();
+      const chunks = [];
+      let received = 0;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        received += value.length;
+        loadedBytes += value.length;
+        chunks.push(value);
+        const percent = totalBytes > 0 ? ((loadedBytes / totalBytes) * 100).toFixed(1) : "?";
+        loadingText.textContent = "LOADING... " + formatSize(loadedBytes) + " / " + formatSize(totalBytes) + " (" + percent + "%)";
+      }
+      const full = new Uint8Array(received);
+      let offset = 0;
+      for (let chunk of chunks) { full.set(chunk, offset); offset += chunk.length; }
+      return full;
+    }
+    async function mergeParts(parts, mimeType) {
+      const buffers = await Promise.all(parts.map(fetchPart));
+      const totalLen = buffers.reduce((s, b) => s + b.length, 0);
+      const concatenated = new Uint8Array(totalLen);
+      let off = 0;
+      for (let b of buffers) { concatenated.set(b, off); off += b.length; }
+      return URL.createObjectURL(new Blob([concatenated], { type: mimeType || undefined }));
+    }
+    function getParts(file, count) {
+      const parts = [];
+      for (let i = 1; i <= count; i++) parts.push(file + ".part" + i);
+      return parts;
+    }
+    (async () => {
+      try {
+        const dataParts = getParts("Build/500.data", 19);
+        const wasmParts = getParts("Build/500.wasm", 3);
+        const allParts = [...dataParts, ...wasmParts, "Build/framework.js"];
+        const sizes = await Promise.all(allParts.map(getSize));
+        totalBytes = sizes.reduce((a, b) => a + b, 0);
+        const [dataUrl, wasmUrl, frameworkUrl] = await Promise.all([
+          mergeParts(dataParts),
+          mergeParts(wasmParts),
+          mergeParts(["Build/framework.js"], 'application/javascript')
+        ]);
+        const canvas = document.querySelector("#unity-canvas");
+        let scaleToFit = true;
+        function onResize() {
+          const container = canvas.parentElement;
+          let w, h;
+          if (scaleToFit) {
+            w = window.innerWidth;
+            h = window.innerHeight;
+            const r = 540 / 960;
+            if (w * r > window.innerHeight) w = Math.min(w, Math.ceil(h / r));
+            h = Math.floor(w * r);
+          } else { w = 960; h = 540; }
+          container.style.width = canvas.style.width = w + "px";
+          container.style.height = canvas.style.height = h + "px";
+          container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
+          container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
+        }
+        window.addEventListener('resize', onResize);
+        onResize();
+        await (async function waitForLoader() {
+          if (typeof createUnityInstance === 'function') return;
+          await new Promise(resolve => {
+            const check = setInterval(() => {
+              if (typeof createUnityInstance === 'function') { clearInterval(check); resolve(); }
+            }, 50);
+          });
+        })();
+        const config = {
+          dataUrl: dataUrl,
+          frameworkUrl: frameworkUrl,
+          codeUrl: wasmUrl,
+          streamingAssetsUrl: "https://cdn.jsdelivr.net/gh/Stinkalistic/UGS@main/UNITY/500calibercontractz/StreamingAssets",
+          companyName: "",
+          productName: "",
+          productVersion: ""
+        };
+        createUnityInstance(canvas, config, (progress) => {
+          const percent = Math.round(progress * 100);
+          loadingText.textContent = "LOADING... " + percent + "%";
+        }).then((unityInstance) => {
+          loadingText.remove();
+        }).catch((message) => {
+          loadingText.textContent = 'Failed to start Unity: ' + message;
+          console.error(message);
+        });
+      } catch (err) {
+        loadingText.textContent = 'ERROR: ' + (err.message || err);
+        console.error(err);
+      }
+    })();
+  <\/script>
+</body>
+</html>`;
+
   const games = [
-    {
-      name: "AdVenture Capitalist",
-      img: "https://upload.wikimedia.org/wikipedia/en/1/13/AdVenture_Capitalist_%282014_video_game%29.png",
-      embed: true,
-      html: `<!doctype html><html lang="en-us"><head><base href="https://rawcdn.githack.com/selenite-cc/selenite-old/9c743188888af0986c8c7b293dbac8f9e421a4ee/adventure-capitalist/"><meta charset="utf-8"><title>AdVenture Capitalist!</title><link rel="stylesheet" href="TemplateData/style.css"><script src="TemplateData/UnityProgress.js"><\/script></head><body class="template"><div class="webgl-content"><div id="unityContainer" style="width:960px;height:600px;padding:0;margin:0;border:0;position:relative;background:rgb(35,31,32);"><canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" width=335 height=667 style="width:100%;height:100%;background:#231F20"></canvas><div id="loadingBox"><div id="bgBar"></div><div id="progressBar"></div><p id="loadingInfo">Loading...</p></div><script type='text/javascript'>var Module={TOTAL_MEMORY:201326592,filePackagePrefixURL:"Release/",memoryInitializerPrefixURL:"Release/",preRun:[],postRun:[],print:(function(){return function(text){console.log(text);};})(),printErr:function(text){console.error(text);},canvas:document.getElementById('canvas'),progress:null,setStatus:function(text){if(this.progress==null){if(typeof UnityProgress!='function')return;this.progress=new UnityProgress(canvas);}if(!Module.setStatus.last)Module.setStatus.last={time:Date.now(),text:''};if(text===Module.setStatus.text)return;this.progress.SetMessage(text);var m=text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);if(m)this.progress.SetProgress(parseInt(m[2])/parseInt(m[4]));if(text==="")this.progress.Clear()},totalDependencies:0,monitorRunDependencies:function(left){this.totalDependencies=Math.max(this.totalDependencies,left);Module.setStatus(left?'Preparing... ('+(this.totalDependencies-left)+'/'+this.totalDependencies+')':'All downloads complete.');}};Module.setStatus('Downloading (0.0/1)');<\/script><script src="Release/UnityConfig.js"><\/script><script src="Release/fileloader.js"><\/script><script>if(!(!Math.fround)){var script=document.createElement('script');script.src="Release/webgl.js";document.body.appendChild(script);}else{var codeXHR=new XMLHttpRequest();codeXHR.open('GET','Release/webgl.js',true);codeXHR.onload=function(){var code=codeXHR.responseText;var blob=new Blob([code],{type:'text/javascript'});codeXHR=null;var script=document.createElement('script');script.src=URL.createObjectURL(blob);script.onload=function(){URL.revokeObjectURL(script.src);};document.body.appendChild(script);};codeXHR.send(null);}<\/script></div></div></body></html>`,
-      emoji: "💰"
-    }
-  ];function animate(time){animationCallbacks.forEach(callback=>callback(time));requestAnimationFrame(animate);}requestAnimationFrame(animate);function setStatusMode(mode){if(statusMode===mode||!initializing)return;[statusProgress,statusIndeterminate,statusNotice].forEach(elem=>{elem.style.display='none';});animationCallbacks=animationCallbacks.filter(function(value){return(value!=animateStatusIndeterminate);});switch(mode){case 'progress':statusProgress.style.display='block';break;case 'indeterminate':statusIndeterminate.style.display='block';animationCallbacks.push(animateStatusIndeterminate);break;case 'notice':statusNotice.style.display='block';break;case 'hidden':break;default:throw new Error('Invalid status mode');}statusMode=mode;}function animateStatusIndeterminate(ms){var i=Math.floor(ms/INDETERMINATE_STATUS_STEP_MS%8);if(statusIndeterminate.children[i].style.borderTopColor==''){Array.prototype.slice.call(statusIndeterminate.children).forEach(child=>{child.style.borderTopColor='';});statusIndeterminate.children[i].style.borderTopColor='#dfdfdf';}}function setStatusNotice(text){while(statusNotice.lastChild){statusNotice.removeChild(statusNotice.lastChild);}var lines=text.split('\n');lines.forEach((line)=>{statusNotice.appendChild(document.createTextNode(line));statusNotice.appendChild(document.createElement('br'));});}function displayFailureNotice(err){var msg=err.message||err;console.error(msg);setStatusNotice(msg);setStatusMode('notice');initializing=false;}if(!Engine.isWebGLAvailable()){displayFailureNotice('WebGL not available');}else{setStatusMode('indeterminate');engine.startGame({'onProgress':function(current,total){if(total>0){statusProgressInner.style.width=current/total*100+'%';setStatusMode('progress');if(current===total){setTimeout(()=>{setStatusMode('indeterminate');},500);}}else{setStatusMode('indeterminate');}}}).then(()=>{setStatusMode('hidden');initializing=false;},displayFailureNotice);}})();<\/script></body></html>`,
-      emoji: "💼"
-    },
-    {
-      name: "A Date with Death",
-      img: "https://cdn2.steamgriddb.com/logo_thumb/82359a931cad4216d2c26928d1601427.png",
-      embed: true,
-      html: `<!doctype html><html lang="en-us"><head><meta charset="utf-8"><title>A Date with Death</title><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>html{background:#444;font-family:sans-serif;}body,html{overscroll-behavior:none;margin:0;padding:0;overflow:hidden;height:100%;width:100%;}#canvas,#overlayDiv{position:absolute;top:0;left:0;width:100%;height:100%;border:0 none;}#canvas{background:#000;}.visible{visibility:visible;opacity:1.0;transition:opacity .1s linear;}.hidden{visibility:hidden;opacity:0;transition:visibility 0s .25s,opacity .25s linear;}#statusDiv{background:rgba(0,0,0,0.85);width:60%;margin:auto;min-width:340px;padding:20px;position:absolute;top:25%;left:0;right:0;border-radius:10px;color:#eee;text-align:center;z-index:100;}#statusProgress{width:100%;height:25px;margin-top:10px;}#presplash{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:50;}#inputDiv{background:rgba(0,0,0,0.75);width:65%;padding:20px;position:absolute;top:20%;left:0;right:0;margin:auto;border-radius:10px;z-index:120;}#inputText{width:100%;font-size:150%;background:#222;color:#fff;padding:5px;}#ContextContainer{position:absolute;left:10px;top:10px;color:white;z-index:110;}#ContextButton{font-size:30px;cursor:pointer;opacity:0.7;user-select:none;}#ContextMenu a{display:block;padding:10px;background:#444;color:#eee;text-decoration:none;border:1px solid #555;margin-top:5px;border-radius:5px;}</style></head><body><canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas><div id="overlayDiv"></div><img id="presplash" src="https://cdn.jsdelivr.net/gh/shayderrr/newports@77c469d583759817a3cdf97330fd1545f0a46f24/ADatewithDeath-2.4-web/web-presplash.jpg"><div id="statusDiv" class="visible"><div id="statusTextDiv">Connecting to CDN...</div><progress id="statusProgress" value="0" max="100"></progress></div><div id="inputDiv" class="hidden"><form id="inputForm"><div id="inputPrompt"></div><input id="inputText" type="text"></form></div><div id="ContextContainer"><a id="ContextButton">&#8801;</a><div id="ContextMenu" style="display:none;"><a href="javascript:onSavegamesExport();">Export Saves</a><a href="https://www.renpy.org/" target="_blank">Powered by Ren'Py</a></div></div><script>const GITHUB_BASE="https://cdn.jsdelivr.net/gh/shayderrr/newports@77c469d583759817a3cdf97330fd1545f0a46f24/ADatewithDeath-2.4-web/";const FILE_CONFIG={zip:{base:"game.zip.part",count:100,pad:3},wasm:{base:"renpy.wasm.part",count:2,pad:0}};window.isFullscreen=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);async function fetchAndMerge(config,label){const chunks=[];const progressElement=document.getElementById('statusProgress');const textElement=document.getElementById('statusTextDiv');for(let i=1;i<=config.count;i++){const suffix=config.pad>0?i.toString().padStart(config.pad,'0'):i.toString();const url=GITHUB_BASE+config.base+suffix;textElement.innerText='Downloading '+label+' ('+i+'/'+config.count+')...';const response=await fetch(url);if(!response.ok)throw new Error('CDN Error: Failed to fetch '+url);chunks.push(await response.arrayBuffer());const totalSteps=FILE_CONFIG.zip.count+FILE_CONFIG.wasm.count;const currentStep=(label==='Engine'?i:FILE_CONFIG.wasm.count+i);progressElement.value=(currentStep/totalSteps)*100;}return new Blob(chunks);}async function bootstrap(){try{const wasmBlob=await fetchAndMerge(FILE_CONFIG.wasm,'Engine');const wasmArrayBuffer=await wasmBlob.arrayBuffer();const zipBlob=await fetchAndMerge(FILE_CONFIG.zip,'Game Files');const zipURL=URL.createObjectURL(zipBlob);window.gameZipURL=zipURL;window.Module={wasmBinary:wasmArrayBuffer,print:console.log,printErr:console.error,locateFile:(path)=>GITHUB_BASE+path,setStatus:(text)=>{if(text)document.getElementById('statusTextDiv').innerText=text;else{document.getElementById('statusDiv').classList.add('hidden');document.getElementById('presplash').classList.add('hidden');}}};console.log('Loading core scripts...');await loadScript(GITHUB_BASE+'renpy-pre.js');await loadScript(GITHUB_BASE+'renpy.js');}catch(e){document.getElementById('statusTextDiv').style.color='#ff6666';document.getElementById('statusTextDiv').innerText='FATAL ERROR: '+e.message;console.error(e);}}function loadScript(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=(err)=>reject(new Error('Failed to load engine script: '+src));document.body.appendChild(s);});}bootstrap();document.getElementById('ContextButton').addEventListener('click',()=>{const menu=document.getElementById('ContextMenu');menu.style.display=(menu.style.display==='none')?'block':'none';});<\/script></body></html>`,
-      emoji: "💀"
-    },
-    {
-      name: "A Dark Room",
-      embed: true,
-      html: `<!DOCTYPE html><html itemscope itemtype="https://schema.org/CreativeWork"><head><meta charset="UTF-8"/><title>A Dark Room</title><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/jquery.color-2.1.2.min.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/jquery.event.move.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/jquery.event.swipe.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/base64.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lib/translate.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/lang/langs.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/Button.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/audioLibrary.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/audio.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/engine.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/state_manager.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/header.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/notifications.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/room.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/outside.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/world.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/path.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/ship.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/space.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/fabricator.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/prestige.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/scoring.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/global.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/room.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/outside.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/encounters.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/setpieces.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/marketing.js"><\/script><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/events/executioner.js"><\/script><script>var oldIE=false;<\/script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/main.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/room.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/outside.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/path.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/world.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/ship.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/space.css"/><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/css/fabricator.css"/><script src="https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/script/localization.js"><\/script></head><body><div id="wrapper"><div id="saveNotify"></div><div id="content"><div id="outerSlider"><div id="main"><div id="header"></div></div></div></div></div></body></html>`,
-      emoji: "🕯️"
-    },
-    {
-      name: "A Dance of Fire and Ice",
-      embed: true,
-      html: `<!DOCTYPE html><html><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/paigerodeghero/academicwebsite@897c910c65e6c68b04c44a6b6eba0b99d0f2f2cf/TemplateData/style.css"><script src="https://cdn.jsdelivr.net/gh/paigerodeghero/academicwebsite@897c910c65e6c68b04c44a6b6eba0b99d0f2f2cf/TemplateData/UnityProgress.js"><\/script><script src="https://cdn.jsdelivr.net/gh/udbsite/adofai@f170efcb1b532312817e69f26ce3f84c99940238/Build/UnityLoader.js"><\/script><script>var gameInstance = UnityLoader.instantiate("gameContainer","https://cdn.jsdelivr.net/gh/udbsite/adofai@f170efcb1b532312817e69f26ce3f84c99940238/Build/adofaiii4.json",{onProgress:UnityProgress,Module:{onRuntimeInitialized:function(){UnityProgress(gameInstance,"complete")}}});<\/script><div class="webgl-content"><div id="gameContainer" style="width:100vw;height:100vh"></div></div></html>`,
-      emoji: "🔥"
-    }
+    { name: "AdVenture Capitalist", url: "https://rawcdn.githack.com/selenite-cc/selenite-old/9c743188888af0986c8c7b293dbac8f9e421a4ee/adventure-capitalist/", emoji: "💰", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtPGNG_QrTN0M3EhcFLJjPzEz5ZrgjrzrnPKrrVtJWUglssySJdHH36UBTGiPUtj__NIVv&s" },
+    { name: "Basket Random", url: "https://nintendoboi2.github.io/games/basket-random", emoji: "🏀", img: "https://imgs.crazygames.com/basket-random_1x1/20240617090207/basket-random_1x1-cover?format=auto&quality=100&metadata=none&width=1200" },
+    { name: "Aquapark.io", html: aquaparkHTML, emoji: "🌊", img: "https://cdn.jsdelivr.net/gh/genizy/braybray/aquapark-io/Aquaparkio512.jpg" },
+    { name: "Archery World Tour", html: archeryHTML, emoji: "🏹", img: "https://www.coolmathgames.com/sites/default/files/ArcheryWorldTour_OG-Logo.jpg" },
+    { name: "ARSONATE", html: arsonateHTML, emoji: "🔥", img: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2822980/09a956a71899cd2087522f77672df0727556f152/capsule_616x353.jpg?t=1773041998" },
+    { name: "As Duty Demands", html: asDutyHTML, emoji: "🎖️", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4274860/22c619cbce481ed3fb84b3858ef19c117a19efd1/header.jpg?t=1773213410" },
+    { name: "Arthur's Nightmare", html: arthursHTML, emoji: "👻", img: "https://static.wikia.nocookie.net/offical-arthurs-nightmare/images/5/50/Arthur.png/revision/latest/smart/width/250/height/250?cb=20180725092742" },
+    { name: "AdventNEON", html: adventNeonHTML, emoji: "⚡", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw21GhFYvBMamg6Qh4b-yn8na9NXgR5u3TkXK7tJGSnGhjXcPs0drxGcQyH1Q5ua4tDHfMUa-DxFvEaF_hPv1sZDOA8ez-YGm7BQskbzf-J3JdZ1SGRLgNZ6YBJAI&s&ec=121630504" },
+    { name: "A Dance of Fire and Ice", html: adofaiHTML, emoji: "🔥", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqPVYeIGFlpV4I4qNT9MMJ7ydV6lyhKiVDWJH71RlJxZsO3woeZbmJSK8_HLh3vpMfsHsx-DkhmzzmmvyiYVlRTgt-oPmkfJmkjBwJrqzf2KBAoxM0SpcJy-qI6ps&s&ec=121630504" },
+    { name: "A Dark Room", html: aDarkRoomHTML, emoji: "🕯️", img: "https://cdn.jsdelivr.net/gh/doublespeakgames/adarkroom@e1c67e5f6fd3b06314c2e12e75994c56cfe63e2d/img/adr.png" },
+    { name: "Amidst the Clouds", html: amidstTheCloudsHTML, emoji: "☁️", img: "https://img.itch.zone/aW1nLzU3NjQxNTkucG5n/original/BJ51xh.png" },
+    { name: "Among Us", html: amongUsHTML, emoji: "🚀", img: "https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/Among_Us_cover_art.jpg/250px-Among_Us_cover_art.jpg" },
+    { name: "Agar.io", html: circleGameHTML, emoji: "⭕", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Agar.io_Logo.png" },
+    { name: "Alien Sky Invasion", html: alienSkyHTML, emoji: "👾", img: "https://upload.wikimedia.org/wikipedia/en/6/64/Alien_Sky_Cover.jpg" },
+    { name: "Antimatter Dimensions", html: antimatterHTML, emoji: "⚛️", img: "https://cdn.jsdelivr.net/gh/IvarK/AntimatterDimensions@master/icon.png" },
+    { name: "Apes vs Helium", html: apesVsHeliumHTML, emoji: "🦍", img: "https://img.itch.zone/aW1nLzE0MDQ3Mzk4LnBuZw==/original/mC%2FX0t.png" },
+    { name: "Angry Birds", html: birdsHTML, emoji: "🐦", img: "https://omgubuntu.co.uk/wp-content/uploads/2011/05/angry-birds-holiday_news.jpg" },
+    { name: "10 Minutes Till Dawn", html: tenMinutesHTML, emoji: "🌙", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEE_eSbjMeyvhjhfEeBclp0vLm4Uoc2BQyEOV1caP7etjlFA_D1Ri56XZfX_kcDktaRaCoP-il12kfOXrde2QISECRhHYrwxsBuulRDyEBEArLnQm51duzrJEEB0E&s&ec=121630504" },
+    { name: "2048", html: g2048HTML, emoji: "🔢", img: "https://upload.wikimedia.org/wikipedia/commons/8/8a/2048_logo.png" },
+    { name: "20 Small Mazes", html: smallMazesHTML, emoji: "🌀", img: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2570630/04d2ec49a79d3c9802bf194d9c3ae88d6707bdf0/capsule_616x353.jpg?t=1773335949" },
+    { name: "3Dash", html: threeDashHTML, emoji: "🎮", img: "https://geometrydashfullversion.io/cache/data/image/game/3dash-m200x200.webp" },
+    { name: "3Dash Editor", html: threeDashEditorHTML, emoji: "✏️", img: "" },
+    { name: "3D Pinball Space Cadet", html: pinballHTML, emoji: "🎱", img: "https://m.media-amazon.com/images/M/MV5BYmNmZmRiOWQtY2E0Mi00YTgyLTk2ZTEtMmI4ZTY0NTMzZWMxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { name: "10-103NK", html: nullKevinHTML, emoji: "👁️", img: "https://img.itch.zone/aW1nLzQ3OTE4MDcuZ2lm/508x254%23mb/CYtqNY.gif" },
+    { name: "2DOOM", html: twoDoomHTML, emoji: "💀", img: "https://files.kidsearch.games/game/0d2/706/0d270652d61551ef/images/240/2doom.jpg" },
+    { name: "4th and Goal 2022", html: fourthAndGoalHTML, emoji: "🏈", img: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/6d8c2360b6f5a5228802918450754f8f/4th-and-goal-2022.png" },
+    { name: "500 Caliber Contractz", html: fiveHundredCaliberHTML, emoji: "🔫", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpTfo9yfFXwaUaGdD0wcgOR-k9N9didSjIlBA1Pl7kGBFvvp6CMLgiimgsVuQ78xYavTHAIy_gI96FUSB5Nu79PuOYftCYIKhjoWFDopdB4nF9ikTfuKiyZgGN9Vo&s=10&ec=121630504" },
+    { name: "8 Ball Billiards Classic", html: eightBallHTML, emoji: "🎱", img: "https://www.classicgame.com/uploaded/game/thumb/8-ball-billiards-classic.webp" },
+    { name: "Babel Tower", html: babelTowerHTML, emoji: "🗼", img: "https://imgs.crazygames.com/babel-tower_16x9/20241216072840/babel-tower_16x9-cover?metadata=none&quality=60&height=4397" },
+    { name: "Baby Chicco Adventures", html: babyChiccoHTML, emoji: "🐣", img: "https://imgs.crazygames.com/baby-chicco-adventures_16x9/20240722070114/baby-chicco-adventures_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop" },
+    { name: "Sniper", html: sniperHTML, emoji: "🎯", img: "https://img.itch.zone/aW1hZ2UvMjU3OTU4NC8xNTQxOTU5Ny5qcGc=/original/shohpY.jpg" },
+    { name: "Backrooms 2D", html: backroomsHTML, emoji: "🟡", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1825160/header.jpg?t=1731691712" },
+    { name: "Bacon May Die", html: baconMayDieHTML, emoji: "🥓", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKVxeWxJ_dXPFtjmmVJNqcyyT2dNYf-sAt3vNd5998lPMrD0U5xa40TwLGdyNfvWR1RqKMCid_RO6ElK-go3kOfoM8bj5FgxAuJc15Key2nFXucGeea2434WluQ&s&ec=121630504" },
+    { name: "Bad Bodyguards", html: badBodyguardsHTML, emoji: "🕵️", img: "https://img.itch.zone/aW1nLzExNjMxNTY0LnBuZw==/original/Y18LVy.png" },
+    { name: "Bad Monday Simulator", html: badMondayHTML, emoji: "💀", img: "https://img.itch.zone/aW1nLzkxMzI5NjkucG5n/original/splulK.png" },
+    { name: "Bad Piggies", html: badPiggiesHTML, emoji: "🐷", img: "https://play-lh.googleusercontent.com/WUXuQ9MrEYeU-blZesAEqdIIQv03OknruPCrNQGOxXop1pFZai0BWT4kKUqaz_rcpRiB" },
+    { name: "Bad Time Simulator", html: badTimeHTML, emoji: "💀", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdDLHx_12pP2CPnLBMYuANbkBVc-ZJEasPWV5mIoQ-UfmB3kavmdflksnG1ex-YLpiqzmRzHeA6uUWHcsmPhinucUzBoGsfjcfI1y7zlq7F6idURILvBNtxBJTTA&s&ec=121630504" },
+    { name: "BFDI: Branches", html: bfdiHTML, emoji: "🌿", img: "https://img.itch.zone/aW1nLzEzOTMxMDYwLnBuZw==/original/IWQh83.png" },
+    { name: "Ballistic", html: ballisticHTML, emoji: "💥", img: "https://arenacloud.cdn.arkadiumhosted.com/arenaxstorage-blob/arenax-games/Ballistic/0.37/build/resources/assets/thumbs/promo-thumb.jpg" },
+    { name: "Balls and Bricks", html: ballsAndBricksHTML, emoji: "🧱", img: "https://play-lh.googleusercontent.com/q0-8z1jbXfogSM5R97W5XHg1j7Bvv80ItyrjYhTUrtMfmbm0Kx2ttoLFbW57phc1kzM=w240-h480-rw" },
+    { name: "BallZ", html: ballzHTML, emoji: "⚪", img: "https://i.ytimg.com/vi/QrQ4Wj8KWkg/maxresdefault.jpg" },
+    { name: "Barry Has a Secret", html: barryHTML, emoji: "🤫", img: "https://img.itch.zone/aW1hZ2UvMjUwMDc2LzExOTQwMTAucG5n/original/5TAS3G.png" },
+    { name: "Basket Random 2", html: basketRandom2HTML, emoji: "🏀", img: "" },
+    { name: "Basketball Stars D2", html: basketballStarsD2HTML, emoji: "🏀", img: "" },
+    { name: "Batter Up!", html: batterUpHTML, emoji: "⚾", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3149150/26f0f237d4dd1b0bdcbf06c520ae6d08885f873f/capsule_616x353.jpg?t=1740375370" },
+    { name: "BFDI Tabs", html: bfdiTabsHTML, emoji: "📖", img: "" },
+    { name: "Beach Boxing Simulator", html: beachBoxingHTML, emoji: "🥊", img: "" },
+    { name: "Bearsus", html: bearsusHTML, emoji: "🐻", img: "" },
+    { name: "BFDI HTML5b", html: bfdiHTML5bHTML, emoji: "🌟", img: "" }
   ];
 
   function buildGrid(list) {
-    const grid = document.getElementById('gameGrid');
+    const grid = document.getElementById('homeGrid');
     grid.innerHTML = '';
-    if (!list.length) {
-      grid.innerHTML = '<div class="no-results">No games found.</div>';
-      return;
-    }
+    if (!list.length) { grid.innerHTML = '<p class="no-results">No games found.</p>'; return; }
     list.forEach(g => {
       const card = document.createElement('div');
       card.className = 'game-card';
-      const thumbContent = g.img
-        ? `<img src="${g.img}" alt="${g.name}" style="width:100%;height:100%;object-fit:contain;background:#111;">`
-        : `<span>${g.emoji || '🎮'}</span>`;
-      card.innerHTML = `
-        <div class="game-thumb">
-          ${thumbContent}
-          <div class="play-overlay">▶</div>
-        </div>
-        <div class="game-name">${g.name}</div>`;
+      const thumbContent = g.img ? `<img src="${g.img}" alt="${g.name}" style="width:100%;height:100%;object-fit:cover;">` : `<span>${g.emoji}</span>`;
+      card.innerHTML = `<div class="game-thumb">${thumbContent}<div class="play-overlay">▶</div></div><div class="game-name">${g.name}</div>`;
       card.onclick = () => openGame(g);
       grid.appendChild(card);
     });
   }
 
-  function filterGames(q) {
-    const filtered = q.trim()
-      ? games.filter(g => g.name.toLowerCase().includes(q.toLowerCase()))
-      : games;
+  function searchGames(q) {
+    const filtered = q.trim() ? games.filter(g => g.name.toLowerCase().includes(q.toLowerCase())) : games;
     buildGrid(filtered);
   }
 
+  let currentBlobUrl = null;
+
   function openGame(g) {
     document.getElementById('gameTitle').textContent = g.name;
-    const frame = document.getElementById('gameFrame');
-    if (g.embed && g.html) {
-      frame.removeAttribute('src');
-      frame.srcdoc = g.html;
+    if (g.html) {
+      const blob = new Blob([g.html], { type: 'text/html' });
+      currentBlobUrl = URL.createObjectURL(blob);
+      document.getElementById('gameFrame').src = currentBlobUrl;
     } else {
-      frame.removeAttribute('srcdoc');
-      frame.src = g.url;
+      document.getElementById('gameFrame').src = g.url;
     }
     document.getElementById('gameModal').classList.add('open');
   }
 
+  function fullscreenGame() {
+    const frame = document.getElementById('gameFrame');
+    if (frame.requestFullscreen) frame.requestFullscreen();
+    else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+    else if (frame.mozRequestFullScreen) frame.mozRequestFullScreen();
+    else if (frame.msRequestFullscreen) frame.msRequestFullscreen();
+  }
+
   function closeGame() {
     document.getElementById('gameFrame').src = '';
+    if (currentBlobUrl) { URL.revokeObjectURL(currentBlobUrl); currentBlobUrl = null; }
     document.getElementById('gameModal').classList.remove('open');
   }
 
-  window.onload = () => buildGrid(games);
+  buildGrid(games);
 </script>
 </body>
 </html>
